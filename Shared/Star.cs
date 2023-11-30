@@ -9,11 +9,11 @@ public class Star
   
 
     [ForeignKey("Movie")]
-    public Int64 MovieId { get; set; }
+    public Int64? MovieId { get; set; }
 
     [ForeignKey("Person")]
-    public Int64 PersonId { get; set; }
+    public Int64? PersonId { get; set; }
 
-    public Movie Movie { get; set; }
-    public Person Person { get; set; }
+    public Movie? Movie { get; set; }
+    public Person? Person { get; set; }
 }

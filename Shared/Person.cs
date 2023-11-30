@@ -7,13 +7,13 @@ public class Person
 {   
     
     [Key]
-    public Int64 Id { get; set; }
+    public Int64? Id { get; set; }
 
     [Required]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public decimal? Birth { get; set; }
 
-    public List<Star> StarredMovies { get; set; }
-    public List<Director> DirectedMovies { get; set; }
+    public List<Star>? StarredMovies { get; set; }
+    public List<Director>? DirectedMovies { get; set; }
 }

@@ -8,16 +8,16 @@ public class User
     
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     [Required]
-    public string Mail { get; set; }
+    public string? Mail { get; set; }
 
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
-    public string Username { get; set; }
+    public string? Username { get; set; }
 
-    public List<Favourite> Favourites { get; set; }
-    public List<UserRating> UserRatings { get; set; }
+    public List<Favourite>? Favourites { get; set; }
+    public List<UserRating>? UserRatings { get; set; }
 
 }

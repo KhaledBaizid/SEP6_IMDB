@@ -14,15 +14,15 @@ public class UnitTestUser
         {
             Id = 1,
             Mail = "test@example.com",
-            Password = "securepassword",
-            Username = "testuser"
+            Password = "securePassword",
+            Username = "testUser"
         };
 
         // Act & Assert
         Assert.AreEqual(1, user.Id);
         Assert.AreEqual("test@example.com", user.Mail);
-        Assert.AreEqual("securepassword", user.Password);
-        Assert.AreEqual("testuser", user.Username);
+        Assert.AreEqual("securePassword", user.Password);
+        Assert.AreEqual("testUser", user.Username);
     }
     
     [TestMethod]
@@ -33,8 +33,8 @@ public class UnitTestUser
 
         // Act
         var idProperty = typeof(User).GetProperty("Id");
-        var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true).FirstOrDefault() as KeyAttribute;
-        var requiredAttribute = typeof(User).GetProperty("Mail").GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
+        var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true).FirstOrDefault() as KeyAttribute;
+        var requiredAttribute = typeof(User).GetProperty("Mail")?.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
 
         // Assert
         Assert.IsNotNull(keyAttribute);

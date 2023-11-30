@@ -13,7 +13,8 @@ public class Star
 
     [ForeignKey("Person")]
     public Int64? PersonId { get; set; }
-
+    [JsonIgnore]
     public Movie? Movie { get; set; }
+    
     public Person? Person { get; set; }
 }

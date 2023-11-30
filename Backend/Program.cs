@@ -1,3 +1,4 @@
+using Backend.DataAccessObjects.Movies;
 using Backend.EFCData;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddScoped<IMoviesInterface, MoviesImplementation>();
 
 var app = builder.Build();
 

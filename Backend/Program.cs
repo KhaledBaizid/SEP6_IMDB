@@ -1,4 +1,5 @@
 using Backend.DataAccessObjects.Movies;
+using Backend.DataAccessObjects.User;
 using Backend.EFCData;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddScoped<IMoviesInterface, MoviesImplementation>();
+builder.Services.AddScoped<IUserInterface, UserImplementation>();
 
 var app = builder.Build();
 

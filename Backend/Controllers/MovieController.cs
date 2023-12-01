@@ -23,7 +23,7 @@ public class MovieController : ControllerBase
     {
         try
         {
-            return Ok(await _moviesInterface.GetAllMoviesAsync()); 
+            return StatusCode(200,await _moviesInterface.GetAllMoviesAsync()); 
         }
         catch (Exception e)
         {
@@ -38,7 +38,7 @@ public class MovieController : ControllerBase
     {
         try
         {
-            return Ok(await _moviesInterface.GetMoviesByTitleAsync(title)); 
+            return StatusCode(200,await _moviesInterface.GetMoviesByTitleAsync(title)); 
         }
         catch (Exception e)
         {

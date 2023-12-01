@@ -26,9 +26,6 @@ public class UserImplementation : IUserInterface
                     var id=(long)userFound.Id;
                     return id;
                 }
-            
-
-
                 return 0;
         }
         catch (Exception e)

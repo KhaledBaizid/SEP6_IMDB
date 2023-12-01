@@ -34,8 +34,22 @@ public class MoviesImplementation: IMoviesInterface
         
     }
 
-    public Task<Movie> GetMovieByTitle()
+    public async Task<List<Movie>?> GetMoviesByTitleAsync(string title)
     {
-        throw new NotImplementedException();
+        List<Movie> movies = new List<Movie>();
+        try
+        {
+            movies = await _systemContext.Movies?.Where(d=>d.Title != null && d.Title.ToLower().Contains(title)).Include(s=>s.Stars)!.ThenInclude(s=>s.Person)
+                .Include(d=>d.Directors)!.ThenInclude(d=>d.Person)
+                .Include(r=>r.Rating).Take(100)
+                .ToListAsync()!;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+       
+        return movies;
     }
 }

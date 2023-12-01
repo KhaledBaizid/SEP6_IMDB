@@ -19,8 +19,30 @@ public class MovieController : ControllerBase
 
     [HttpGet]
     
-    public async Task<List<Movie>?> GetAllMoviesAsync()
+    public async Task<ActionResult<List<Movie>?>>GetAllMoviesAsync()
     {
-        return await _moviesInterface.GetAllMoviesAsync();
+        try
+        {
+            return Ok(await _moviesInterface.GetAllMoviesAsync()); 
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+        
+    }
+
+    [HttpGet]
+    [Route("title")]
+    public async Task<ActionResult<List<Movie>>> GetMoviesByTitleAsync(string title)
+    {
+        try
+        {
+            return Ok(await _moviesInterface.GetMoviesByTitleAsync(title)); 
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
     }
 }

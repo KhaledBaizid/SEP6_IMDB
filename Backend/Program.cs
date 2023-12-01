@@ -1,3 +1,4 @@
+using Backend.DataAccessObjects.Favourite;
 using Backend.DataAccessObjects.Movies;
 using Backend.DataAccessObjects.User;
 using Backend.EFCData;
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddScoped<IMoviesInterface, MoviesImplementation>();
 builder.Services.AddScoped<IUserInterface, UserImplementation>();
+builder.Services.AddScoped<IFavouriteInterface, FavouriteImplementation>();
 
 var app = builder.Build();
 

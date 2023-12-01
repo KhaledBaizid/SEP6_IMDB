@@ -36,4 +36,26 @@ public class UserImplementation : IUserInterface
        
         
     }
+
+    public async Task<long> GetLoginUserIdAsync(string mail, string password)
+    {
+        try
+        {
+            if (_systemContext.Users != null)
+            {
+                var findUser = await _systemContext.Users.FirstOrDefaultAsync(e=>e.Mail==mail);
+                if (findUser is not null && findUser.Password==password)
+                {
+                    return findUser.Id;
+                }
+            }
+
+            return 0;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

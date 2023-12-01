@@ -29,4 +29,17 @@ public class UserController : ControllerBase
          return   StatusCode(500, e.Message);
       }
    }
+
+   [HttpGet]
+   public async Task<ActionResult<long>> GetLoginUserId(string mail, string password)
+   {
+      try
+      {
+         return StatusCode(200,await _userInterface.GetLoginUserIdAsync(mail,password)); 
+      }
+      catch (Exception e)
+      {
+         return   StatusCode(500, e.Message);
+      }
+   }
 }

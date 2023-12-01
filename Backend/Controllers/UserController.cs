@@ -22,7 +22,7 @@ public class UserController : ControllerBase
    {
       try
       {
-         return (await _userInterface.CreateUserAccountAsync(user)); 
+         return StatusCode(200,await _userInterface.CreateUserAccountAsync(user)); 
       }
       catch (Exception e)
       {

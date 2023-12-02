@@ -1,60 +1,131 @@
 ﻿@page "/fetchdata"
+@using FrontendBlazorWebAssembly.Services
+@using global::Shared
 @inject HttpClient Http
+@inject IMovieService _moviesService
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>List of 100 movies</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Movies</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
-{
-    <p>
-        <em>Loading...</em>
-    </p>
-}
-else
-{
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var forecast in forecasts)
-        {
-            <tr>
-                <td>@forecast.Date.ToShortDateString()</td>
-                <td>@forecast.TemperatureC</td>
-                <td>@forecast.TemperatureF</td>
-                <td>@forecast.Summary</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+@* @if (forecasts == null) *@
+@* { *@
+@*     <p> *@
+@*         <em>Loading...</em> *@
+@*     </p> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <table class="table"> *@
+@*         <thead> *@
+@*         <tr> *@
+@*             <th>Date</th> *@
+@*             <th>Temp. (C)</th> *@
+@*             <th>Temp. (F)</th> *@
+@*             <th>Summary</th> *@
+@*         </tr> *@
+@*         </thead> *@
+@*         <tbody> *@
+@*         @foreach (var forecast in forecasts) *@
+@*         { *@
+@*             <tr> *@
+@*                 <td>@forecast.Date.ToShortDateString()</td> *@
+@*                 <td>@forecast.TemperatureC</td> *@
+@*                 <td>@forecast.TemperatureF</td> *@
+@*                 <td>@forecast.Summary</td> *@
+@*             </tr> *@
+@*         } *@
+@*         </tbody> *@
+@*     </table> *@
+@* } *@
 
+@if (!displayMovies.Any())
+           {
+               <p>Loading data...</p>
+           }
+           else
+           {
+               @* @foreach (Movie movie in displayMovies) *@
+               @* { *@
+               @*     <p> @movie.Title </p> *@
+               @*     <p> @movie.Rating.RatingValue </p>    *@
+               @*     <p> @movie.Rating.Votes</p>                    *@
+               @*      *@
+               @* } *@
+               <table class="table">
+                   <thead>
+                   <tr>
+                       <th>Movie</th>
+                       <th>Rating</th>
+                       <th>Votes</th>
+                       <th>Stars</th>
+                       <th>Directors</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   @foreach (var movie in displayMovies)
+                   {
+                       <tr>
+                           <td>@movie.Title</td>
+                           <td>
+                               @if (movie.Rating != null)
+                               {
+                                   // Math.Round((double)@movie.Rating.RatingValue, 2);
+                                   @movie.Rating.RatingValue
+                               }
+                           </td>
+                           <td>
+                               @if (movie.Rating != null)
+                               {
+                                   @movie.Rating.Votes
+                               }
+                           </td>
+                           <td>
+                               @if (@movie.Stars != null)
+                               {
+                                   foreach (var star in @movie.Stars)
+                                   {
+                                       <ul>
+                                           <li>@star.Person?.Name</li>
+                                       </ul>
+                                   }
+                               }
+                           </td>
+                            <td>
+                                @if (@movie.Directors!= null)
+                                {
+                                    foreach (var director in @movie.Directors)
+                                    {
+                                       <ul>
+                                           <li>@director.Person?.Name</li>
+                                       </ul>
+                                    }
+                                }
+                            </td>
+                       </tr>
+                   }
+                   </tbody>
+               </table>
+           }
 @code {
-    private WeatherForecast[]? forecasts;
+    public List<Movie> displayMovies { get; set; } = new();
+    // private WeatherForecast[]? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-    }
+        displayMovies = await _moviesService.GetAllMoviesByTitle("solo");    }
 
-    public class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
+    // public class WeatherForecast
+    // {
+    //     public DateOnly Date { get; set; }
+    //
+    //     public int TemperatureC { get; set; }
+    //
+    //     public string? Summary { get; set; }
+    //
+    //     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    // }
 
-        public int TemperatureC { get; set; }
-
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
-//12222222222222222222222222222222
 }

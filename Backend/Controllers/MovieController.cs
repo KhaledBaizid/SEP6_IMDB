@@ -34,7 +34,7 @@ public class MovieController : ControllerBase
     }
     [EnableCors] 
     [HttpGet]
-    [Route("title")]
+    [Route("title/{title}")]
     public async Task<ActionResult<List<Movie>>> GetMoviesByTitleAsync(string title)
     {
         try

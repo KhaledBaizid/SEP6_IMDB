@@ -1,4 +1,5 @@
 ﻿using Backend.DataAccessObjects.Favourite;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 
@@ -14,14 +15,29 @@ public class FavouriteController : ControllerBase
     {
         _favouriteInterface = favouriteInterface;
     }
-
+    [EnableCors] 
     [HttpPost]
-    public async Task<ActionResult> AddMovieToFavourite(Favourite favourite)
+    public async Task<ActionResult> AddMovieToFavourite(int userid, long movieid)
     {
         try
         {
-            await _favouriteInterface.AddFavouriteMovieAsync(favourite);
+            await _favouriteInterface.AddFavouriteMovieAsync(userid,movieid);
             return StatusCode(200);
+        }
+        catch (Exception e)
+        {
+            return   StatusCode(500, e.Message);
+        }
+    }
+    
+    [EnableCors]
+    [HttpGet]
+    public async Task<ActionResult<List<Favourite>>> GetTheFavouriteListOfMoviesByUserID(long id)
+    {
+        try
+        {
+            return StatusCode(200,await _favouriteInterface.GetListOfFavouriteMovies(id));
+            
         }
         catch (Exception e)
         {

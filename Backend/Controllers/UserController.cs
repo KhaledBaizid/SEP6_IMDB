@@ -1,4 +1,5 @@
 ﻿using Backend.DataAccessObjects.User;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
@@ -16,7 +17,7 @@ public class UserController : ControllerBase
    {
       _userInterface = userInterface;
    }
-
+   [EnableCors] 
    [HttpPost]
    public async Task<ActionResult<long>> CreateUserAccountAsync(User user)
    {
@@ -29,7 +30,7 @@ public class UserController : ControllerBase
          return   StatusCode(500, e.Message);
       }
    }
-
+   [EnableCors] 
    [HttpGet]
    public async Task<ActionResult<long>> GetLoginUserId(string mail, string password)
    {

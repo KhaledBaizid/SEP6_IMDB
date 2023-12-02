@@ -39,7 +39,7 @@ public class MoviesImplementation: IMoviesInterface
         List<Movie> movies = new List<Movie>();
         try
         {
-            movies = await _systemContext.Movies?.Where(d=>d.Title != null && d.Title.ToLower().Contains(title)).Include(s=>s.Stars)!.ThenInclude(s=>s.Person)
+            movies = await _systemContext.Movies?.Where(d=>d.Title != null && d.Title.ToLower().Contains(title.ToLower())).Include(s=>s.Stars)!.ThenInclude(s=>s.Person)
                 .Include(d=>d.Directors)!.ThenInclude(d=>d.Person)
                 .Include(r=>r.Rating).Take(100)
                 .ToListAsync()!;

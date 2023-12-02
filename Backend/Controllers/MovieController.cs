@@ -1,4 +1,5 @@
 ﻿using Backend.DataAccessObjects.Movies;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 
@@ -16,7 +17,7 @@ public class MovieController : ControllerBase
     {
         _moviesInterface = moviesInterface;
     }
-
+    [EnableCors] 
     [HttpGet]
     
     public async Task<ActionResult<List<Movie>?>>GetAllMoviesAsync()
@@ -31,7 +32,7 @@ public class MovieController : ControllerBase
         }
         
     }
-
+    [EnableCors] 
     [HttpGet]
     [Route("title")]
     public async Task<ActionResult<List<Movie>>> GetMoviesByTitleAsync(string title)

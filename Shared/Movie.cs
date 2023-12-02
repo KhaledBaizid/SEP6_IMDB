@@ -21,8 +21,8 @@ public class Movie
     public List<Director>? Directors { get; set; }
     
     public Rating? Rating { get; set; }
-  
+    [JsonIgnore]
     public List<Favourite>? Favourites { get; set; }
-    
+    [JsonIgnore]
     public List<UserRating>? UserRatings { get; set; }
 }

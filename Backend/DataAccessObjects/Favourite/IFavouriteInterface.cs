@@ -5,6 +5,6 @@ namespace Backend.DataAccessObjects.Favourite;
 
 public interface IFavouriteInterface
 {
-    public Task AddFavouriteMovieAsync(Shared.Favourite favourite);
-
+    public Task AddFavouriteMovieAsync(int userid, long movieid);
+    public Task<List<Shared.Favourite>> GetListOfFavouriteMovies(long id);
 }

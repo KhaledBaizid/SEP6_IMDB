@@ -17,7 +17,16 @@ builder.Services.AddDbContext<DataContext>();
 builder.Services.AddScoped<IMoviesInterface, MoviesImplementation>();
 builder.Services.AddScoped<IUserInterface, UserImplementation>();
 builder.Services.AddScoped<IFavouriteInterface, FavouriteImplementation>();
+builder.Services.AddCors(options =>  
+{  
+    options.AddDefaultPolicy(  
+        policy =>
+        {
+            policy.AllowAnyOrigin();  
+            
 
+        });  
+}); 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,7 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

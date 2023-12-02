@@ -7,10 +7,10 @@ namespace Shared;
 public class Star 
 {
   
-
+    [JsonIgnore]
     [ForeignKey("Movie")]
     public Int64? MovieId { get; set; }
-
+   [JsonIgnore]
     [ForeignKey("Person")]
     public Int64? PersonId { get; set; }
     [JsonIgnore]

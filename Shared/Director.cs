@@ -7,7 +7,7 @@ namespace Shared;
 public class Director
 {
     
-   
+    [JsonIgnore]
     [ForeignKey("Movie")]
     public Int64? MovieId { get; set; }
 

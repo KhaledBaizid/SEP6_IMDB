@@ -1,4 +1,5 @@
 using Backend.EFCData;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
         _systemContext = systemContext;
     }
-
+    [EnableCors]
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {

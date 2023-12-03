@@ -16,6 +16,7 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri("https://localhost:7101")});
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IRegisterUserService, RegisterUserService>();
 builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthenticationStateProvider>();
 builder.Services.AddScoped<IAuthManager, AuthManagerImpl>();
 

@@ -1,0 +1,130 @@
+﻿@using FrontendBlazorWebAssembly.Authentication
+ 
+@using Microsoft.AspNetCore.Components.Authorization
+
+<style>
+	.navbar {
+		text-transform: uppercase;
+		background-color: #39445a;
+		font-family: "Montserrat", sans-serif;
+		font-size: 20px;
+		padding-bottom: 10px;
+		box-shadow: 0px 1px 5px black;
+		z-index: 100;
+		color: white;
+		height: 60px;
+		
+	}
+
+	.navbar-nav .nav-item .nav-link {
+		color: white !important;
+		border-radius: 5px;
+		transition:   0.5s;
+	}
+
+	.navbar-nav .nav-item {
+	margin: 2px;
+	padding: 2px;
+		transition:   0.5s;
+	}
+
+		.navbar-nav .nav-item .nav-link:hover {
+			color: black !important;
+			background-color: silver; /* Change background color on hover */
+			border-radius: 2px;
+			/* 	transition: color 0.5s ease; */
+			transition:   0.5s;
+		}
+
+	.loginIcon {
+		margin-right: 5px !important;
+		
+	}
+
+	.navbar-brand {
+		color: white !important;
+	}
+
+	.LoginBtn {
+	margin-top: 2px !important;
+		 margin-right: 5px;
+			margin-left: 5px !important;
+	}
+	
+</style>
+
+<AuthorizeView>
+	<NotAuthorized>
+
+		<nav class="navbar navbar-expand-lg navbar-light ">
+			<a class="navbar-brand" href="#">Movies Hub</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/movies">Movies</a>
+					</li>
+				</ul>
+
+				<div class="ms-auto LoginBtn">
+					
+					<button class="btn btn-outline-success my-2 my-sm-0" @onclick="Login"><i class="bi bi-box-arrow-in-right loginIcon">Login</i></button>
+				</div>
+			</div>
+		</nav>
+
+	</NotAuthorized>
+
+	<Authorized>
+		<nav class="navbar navbar-expand-lg navbar-light ">
+			<a class="navbar-brand" href="#">Movies Hub</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/movies">Movies</a>
+					</li>
+				</ul>
+
+				<div class="ms-auto LoginBtn">
+					<button class="btn btn-outline-success my-2 my-sm-0" @onclick="Logout"><i class="bi bi-box-arrow-in-left">Logout </i></button>
+				</div>
+			</div>
+		</nav>
+		 
+	</Authorized>
+
+</AuthorizeView>
+
+@code {
+
+	[Inject] public NavigationManager NavigationManager { get; set; }
+	[Inject] public IAuthManager iAuthService { get; set; }
+
+	protected async Task Login()
+	{
+		NavigationManager.NavigateTo("/Login");
+
+	}
+
+	protected async Task Logout()
+	{
+		NavigationManager.NavigateTo("/");
+		await iAuthService.LogoutAsync();
+	}
+
+}

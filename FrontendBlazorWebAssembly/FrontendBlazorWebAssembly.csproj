@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="bootstrap" Version="4.6.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
@@ -14,6 +15,14 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Shared\Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap-icons\font\bootstrap-icons.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap-icons\font\bootstrap-icons.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap-icons\font\bootstrap-icons.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap-icons\font\fonts\bootstrap-icons.woff" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap-icons\font\fonts\bootstrap-icons.woff2" />
     </ItemGroup>
 
 </Project>

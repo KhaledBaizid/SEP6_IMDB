@@ -13,20 +13,29 @@ public class UserImplementation : IUserInterface
         _systemContext = systemContext;
     }
 
-    public async Task<long> CreateUserAccountAsync(Shared.User user)
+    public async Task<Shared.User> CreateUserAccountAsync(Shared.User user)
     {
         try
         {
            
-                var user1 = await _systemContext.Users.FirstOrDefaultAsync(e=>e.Mail==user.Mail);
-                if (user1 is null)
-                {  await _systemContext.Users.AddAsync(user);
-                    await _systemContext.SaveChangesAsync();
-                    var userFound = await _systemContext.Users.FirstAsync(u => u.Mail == user.Mail);
-                    var id=(long)userFound.Id;
-                    return id;
+                var userMail = await _systemContext.Users.FirstOrDefaultAsync(e=>e.Mail==user.Mail);
+                var userUsername = await _systemContext.Users.FirstOrDefaultAsync(e=>e.Username==user.Username);
+                if (userMail is null)
+                {
+                    if (userUsername is null)
+                    {
+                        await _systemContext.Users.AddAsync(user);
+                        await _systemContext.SaveChangesAsync();
+                        var userFound = await _systemContext.Users.FirstAsync(u => u.Mail == user.Mail);
+                        userFound.Password = null;
+                        return userFound;
+                    }
+
+                    return new Shared.User{Id=-2,Mail = "anymail123456123@ggg.com",Username = "anyusername156446"};
                 }
-                return 0;
+
+               // Shared.User usernotfound;
+                return new Shared.User{Id=-1,Mail = "anymail123456123@ggg.com",Username = "anyusername156446"};
         }
         catch (Exception e)
         {
@@ -37,7 +46,7 @@ public class UserImplementation : IUserInterface
         
     }
 
-    public async Task<long> GetLoginUserIdAsync(string mail, string password)
+    public async Task<Shared.User> GetLoginUserIdAsync(string mail, string password)
     {
         try
         {
@@ -46,11 +55,13 @@ public class UserImplementation : IUserInterface
                 var findUser = await _systemContext.Users.FirstOrDefaultAsync(e=>e.Mail==mail);
                 if (findUser is not null && findUser.Password==password)
                 {
-                    return findUser.Id;
+                    findUser.Password = null;
+                    return findUser;
                 }
             }
 
-            return 0;
+            Shared.User user1;
+            return user1 =new Shared.User{Id=-1,Mail = "anymail123456123@ggg.com",Username = "anyusername156446"};
         }
         catch (Exception e)
         {

@@ -4,6 +4,6 @@ namespace Backend.DataAccessObjects.User;
 public interface IUserInterface
 {
     
-    public Task<long> CreateUserAccountAsync(Shared.User user);
-    public Task <long> GetLoginUserIdAsync(string mail, string password);
+    public Task<Shared.User> CreateUserAccountAsync(Shared.User user);
+    public Task <Shared.User> GetLoginUserIdAsync(string mail, string password);
 }

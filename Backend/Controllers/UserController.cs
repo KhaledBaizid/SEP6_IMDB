@@ -19,7 +19,7 @@ public class UserController : ControllerBase
    }
    [EnableCors] 
    [HttpPost]
-   public async Task<ActionResult<long>> CreateUserAccountAsync(User user)
+   public async Task<ActionResult<User>> CreateUserAccountAsync(User user)
    {
       try
       {
@@ -32,7 +32,7 @@ public class UserController : ControllerBase
    }
    [EnableCors] 
    [HttpGet]
-   public async Task<ActionResult<long>> GetLoginUserId(string mail, string password)
+   public async Task<ActionResult<User>> GetLoginUserId(string mail, string password)
    {
       try
       {

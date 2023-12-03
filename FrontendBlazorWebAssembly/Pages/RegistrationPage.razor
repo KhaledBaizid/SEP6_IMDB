@@ -1,0 +1,69 @@
+﻿@page "/register"
+@inherits RegistrationPageBase;
+<style>
+    .gradient-custom-3 {
+        background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+        background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    }
+
+    .gradient-custom-4 {
+        background: #84fab0;
+        background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+        background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+    }
+
+
+
+    /* Additional styling for smaller screens */
+
+</style>
+
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-12 col-md-9 col-lg-7 col-xl-6 mycard">
+        <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-4">
+                <h2 class="text-uppercase text-center mb-4">Create an account</h2>
+
+                <EditForm Model="@User" OnValidSubmit="@RegisterUserHandler">
+                    <div class="form-outline mb-3">
+                        <InputText id="form3Example1cg" class="form-control form-control-lg" @bind-Value="User.Username" />
+                        <label class="form-label" for="form3Example1cg">Your Name</label>
+                    </div>
+
+                    <div class="form-outline mb-3">
+                        <InputText id="form3Example3cg" class="form-control form-control-lg" @bind-Value="User.Mail" />
+                        <label class="form-label" for="form3Example3cg">Your Email</label>
+                    </div>
+
+                    <div class="form-outline mb-3">
+                        <InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="User.Password" />
+                        <label class="form-label" for="form3Example4cg">Password</label>
+                    </div>
+
+                    @*  <div class="form-outline mb-3">
+                    <InputText id="form3Example4cdg" class="form-control form-control-lg" @bind-Value="ConfirmPassword" />
+                    <label class="form-label" for="form3Example4cdg">Repeat your password</label>
+                    </div> *@
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg gradient-custom-4 text-body">
+                            Register
+                        </button>
+                    </div>
+                </EditForm>
+
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger mt-4" role="alert">
+                        @errorMessage
+                    </div>
+                }
+
+                <p class="text-center text-muted mt-4 mb-0">
+                    Have already an account? <a href="../Pages/LoginPage.razor" class="fw-bold text-body"><u>Login here</u></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

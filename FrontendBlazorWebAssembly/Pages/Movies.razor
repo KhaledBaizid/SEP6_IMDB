@@ -1,0 +1,60 @@
+﻿@page "/movies"
+@using Microsoft.AspNetCore.Components.Authorization
+<h3>Hello Movies</h3>
+
+
+<AuthorizeView>
+
+	<NotAuthorized>
+		<h1>You are not logged in </h1>
+
+		<div class="input-group">
+
+			<div class="form-outline" data-mdb-input-init>
+				<input type="search" id="form1" class="form-control" placeholder="Search" />
+
+
+			</div>
+
+
+			<button type="button" class="btn btn-primary" data-mdb-ripple-init>
+				<span class="bi bi-search" aria-hidden="true"></span>
+			</button>
+
+
+		</div>
+
+		<div class="card" style="width: 18rem;">
+			<img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
+			<div class="card-body">
+				<h5 class="card-title">Card title</h5>
+
+				<a href="#" class="btn btn-primary">Go Details</a>
+			</div>
+		</div>
+
+	</NotAuthorized>
+
+	<Authorized>
+
+		<h3>Hello, @context.User.Identity.Name </h3>
+	
+
+		<div class="card" style="width: 18rem;">
+			<img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
+			<div class="card-body">
+				<h5 class="card-title">Card title</h5>
+
+				<a href="#" class="btn btn-primary">Go Details</a>
+			</div>
+		</div>
+
+
+
+	</Authorized>
+
+</AuthorizeView>
+
+@code {
+
+}

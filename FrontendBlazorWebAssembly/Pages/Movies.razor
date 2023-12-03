@@ -1,57 +1,98 @@
 ﻿@page "/movies"
 @using Microsoft.AspNetCore.Components.Authorization
-<h3>Hello Movies</h3>
+
+
+<style>
+	.card {
+		border-radius: 10px;
+		margin-top: 5px;
+	}
+
+		.card:hover {
+			background-color: #39445a;
+			transition: 0.7s;
+		}
+
+			.card:hover .card-title {
+				color: white;
+			}
+			
+				.card:hover .cardYear{
+            				color: white;
+            			}
+			
+			
+
+	.card-title {
+		color: #39445a;
+	}
+
+	.card-img-top {
+		border-radius: 10px;
+		padding: 6px;
+	}
+
+	.form-outline {
+		width: 600px
+	}
+
+	.input-group .btn {
+		margin-left: 5px !important;
+		height: 38px !important;
+		border-radius: 5px !important;
+	}
+</style>
 
 
 <AuthorizeView>
 
-	<NotAuthorized>
-		<h1>You are not logged in </h1>
+    <NotAuthorized>
+        <h1>You are not logged in </h1>
 
-		<div class="input-group">
+        <div class="input-group">
 
-			<div class="form-outline" data-mdb-input-init>
-				<input type="search" id="form1" class="form-control" placeholder="Search" />
-
-
-			</div>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="search" id="form1" class="form-control" placeholder="Search"/>
 
 
-			<button type="button" class="btn btn-primary" data-mdb-ripple-init>
-				<span class="bi bi-search" aria-hidden="true"></span>
-			</button>
+            </div>
 
 
-		</div>
-
-		<div class="card" style="width: 18rem;">
-			<img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
-			<div class="card-body">
-				<h5 class="card-title">Card title</h5>
-
-				<a href="#" class="btn btn-primary">Go Details</a>
-			</div>
-		</div>
-
-	</NotAuthorized>
-
-	<Authorized>
-
-		<h3>Hello, @context.User.Identity.Name </h3>
-	
-
-		<div class="card" style="width: 18rem;">
-			<img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
-			<div class="card-body">
-				<h5 class="card-title">Card title</h5>
-
-				<a href="#" class="btn btn-primary">Go Details</a>
-			</div>
-		</div>
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+                <span class="bi bi-search" aria-hidden="true"></span>
+            </button>
 
 
+        </div>
 
-	</Authorized>
+        <div class="card" style="width: 18rem;">
+            <img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="cardYear">Year</p>
+
+                <a href="#" class="btn btn-primary">More Details..</a>
+            </div>
+        </div>
+
+    </NotAuthorized>
+
+    <Authorized>
+
+        <h3>Hello, @context.User.Identity.Name </h3>
+
+
+        <div class="card" style="width: 18rem;">
+            <img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+
+                <a href="#" class="btn btn-primary">Go Details</a>
+            </div>
+        </div>
+
+
+    </Authorized>
 
 </AuthorizeView>
 

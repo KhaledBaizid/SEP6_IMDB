@@ -1,17 +1,54 @@
-﻿@inherits LayoutComponentBase
+﻿@using FrontendBlazorWebAssembly.Authentication
+@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+@using Microsoft.AspNetCore.Components.Authorization
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<AuthorizeView>
+    <NotAuthorized>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+        @* <div class="sidebar"> *@
+        @*     <NavMenu/> *@
+        @* </div> *@
+
+        <Navbar/>
+        <main>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+
+    </NotAuthorized>
+    <Authorized>
+
+        @* <div class="sidebar"> *@
+        @*     <NavMenu/> *@
+        @* </div> *@
+        <Navbar/>
+
+        <main>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IAuthManager iAuthService { get; set; }
+
+    protected async Task Logout()
+    {
+        NavigationManager.NavigateTo("/");
+        await iAuthService.LogoutAsync();
+    }
+
+}

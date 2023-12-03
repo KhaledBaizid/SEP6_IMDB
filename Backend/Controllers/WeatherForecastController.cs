@@ -29,42 +29,42 @@ public class WeatherForecastController : ControllerBase
     {
         ///////////////////////////EFC Get Movies/////////////////
         
-        var c = _systemContext.Movies?.Where(d=>d.Title != null && d.Title.ToLower().Contains("venom")).Include(s=>s.Stars)!.ThenInclude(s=>s.Person)
-            .Include(d=>d.Directors)!.ThenInclude(d=>d.Person)
-            .Include(r=>r.Rating)
-            .ToList();
-        if (c != null)
-            foreach (var m in c)
-            {
-                Console.WriteLine("Title: " + m.Title);
-                if (m.Rating != null)
-                {
-                    Console.WriteLine("Rating: " + m.Rating.RatingValue);
-                    Console.WriteLine("Votes: " + m.Rating.Votes);
-                }
-
-                if (m.Stars != null)
-                {
-                    Console.WriteLine("Stars");
-                    foreach (var s in m.Stars)
-                    {
-                        Console.WriteLine(s.PersonId);
-                        //Console.WriteLine(_systemContext.Stars.Include(p=>p.));
-                        Console.WriteLine(s.Person?.Name);
-                    }
-
-                    Console.WriteLine("Directors");
-                    if (m.Directors != null)
-                        foreach (var d in m.Directors)
-                        {
-                            Console.WriteLine(d.PersonId);
-                            //Console.WriteLine(_systemContext.Stars.Include(p=>p.));
-                            Console.WriteLine(d.Person?.Name);
-                        }
-                }
-
-                Console.WriteLine("*****************************");
-            }
+        // var c = _systemContext.Movies?.Where(d=>d.Title != null && d.Title.ToLower().Contains("venom")).Include(s=>s.Stars)!.ThenInclude(s=>s.Person)
+        //     .Include(d=>d.Directors)!.ThenInclude(d=>d.Person)
+        //     .Include(r=>r.Rating)
+        //     .ToList();
+        // if (c != null)
+        //     foreach (var m in c)
+        //     {
+        //         Console.WriteLine("Title: " + m.Title);
+        //         if (m.Rating != null)
+        //         {
+        //             Console.WriteLine("Rating: " + m.Rating.RatingValue);
+        //             Console.WriteLine("Votes: " + m.Rating.Votes);
+        //         }
+        //
+        //         if (m.Stars != null)
+        //         {
+        //             Console.WriteLine("Stars");
+        //             foreach (var s in m.Stars)
+        //             {
+        //                 Console.WriteLine(s.PersonId);
+        //                 //Console.WriteLine(_systemContext.Stars.Include(p=>p.));
+        //                 Console.WriteLine(s.Person?.Name);
+        //             }
+        //
+        //             Console.WriteLine("Directors");
+        //             if (m.Directors != null)
+        //                 foreach (var d in m.Directors)
+        //                 {
+        //                     Console.WriteLine(d.PersonId);
+        //                     //Console.WriteLine(_systemContext.Stars.Include(p=>p.));
+        //                     Console.WriteLine(d.Person?.Name);
+        //                 }
+        //         }
+        //
+        //         Console.WriteLine("*****************************");
+        //     }
 
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

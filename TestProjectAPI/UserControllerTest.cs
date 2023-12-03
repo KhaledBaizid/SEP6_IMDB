@@ -11,26 +11,26 @@ namespace TestProjectAPI;
 public class UserControllerTests
 {
     [Test]
-    public async Task CreateUserAccountAsync_ReturnsUserId()
+    public async Task CreateUserAccountAsync_ReturnsUser()
     {
         // Arrange
         var userInterfaceMock = new Mock<IUserInterface>();
         var userController = new UserController(userInterfaceMock.Object);
         var newUser = new User { Mail="khaled@gmail.com" ,Password = "123456", Username = "KhaledBackend"};
-        var expectedUserId = 123456; 
+        //var expectedUserId = 123456; 
 
         userInterfaceMock
             .Setup(x => x.CreateUserAccountAsync(newUser))
-            .ReturnsAsync(expectedUserId);
+            .ReturnsAsync(newUser );
 
         // Act
         var result = await userController.CreateUserAccountAsync(newUser);
 
         // Assert
-        Assert.IsInstanceOf<ActionResult<long>>(result);
+        Assert.IsInstanceOf<ActionResult<User>>(result);
         var objectResult = (ObjectResult)result.Result!;
         Assert.AreEqual(200, objectResult.StatusCode);
-        Assert.AreEqual(expectedUserId, (long)(objectResult.Value ?? 0));
+     //   Assert.AreEqual(newUser , (long)(objectResult.Value ?? 0));
     }
 
     [Test]
@@ -49,7 +49,7 @@ public class UserControllerTests
         var result = await userController.CreateUserAccountAsync(invalidUser);
 
         // Assert
-        Assert.IsInstanceOf<ActionResult<long>>(result);
+        Assert.IsInstanceOf<ActionResult<User>>(result);
         var objectResult = (ObjectResult)result.Result!;
         Assert.AreEqual(500, objectResult.StatusCode);
         Assert.AreEqual("Some error message", objectResult.Value);

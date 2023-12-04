@@ -44,4 +44,19 @@ public class FavouriteController : ControllerBase
             return   StatusCode(500, e.Message);
         }
     }
+    
+    [EnableCors] 
+    [HttpDelete]
+    public async Task<ActionResult> DeleteMovieToFavourite(int userid, long movieid)
+    {
+        try
+        {
+            await _favouriteInterface.DeleteFavouriteMovieAsync(userid,movieid);
+            return StatusCode(200);
+        }
+        catch (Exception e)
+        {
+            return   StatusCode(500, e.Message);
+        }
+    }
 }

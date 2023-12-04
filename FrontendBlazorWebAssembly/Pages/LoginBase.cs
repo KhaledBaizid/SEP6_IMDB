@@ -6,7 +6,7 @@ namespace FrontendBlazorWebAssembly.Pages
 {
 	public class LoginBase : ComponentBase
 	{
-		public User? User { get; set; } = new User();
+		public User? user { get; set; } = new User();
 
 
 		public string errorMessage;
@@ -21,40 +21,17 @@ namespace FrontendBlazorWebAssembly.Pages
 		{
 			try
 			{
+				if (user != null)
+				{
+					// Call the IAuthManager service with the user object
+					await authManager.LoginAsync(user);
 
-				// Call the IAuthManager service with the user object
-				await authManager.LoginAsync(User);
-				
-				NavigationManager.NavigateTo("/movies");
-
-				/*
-                string msg = authManager.msgToUser();
-
-
-
-
-                if (msg.Equals("PasswordCorrect"))
-                {
-                    // Registration successful, navigate to another URL
-                    NavigationManager.NavigateTo("/login"); // Change "/successPage" to the desireds URL
-                }
-                else
-                {
-                    // Registration failed
-                    errorMessage = "Registration failed. Please try again."; // Set your error message
-                }
-                */
-				/*
-                if (registeredUser != null)
-                {
-                    // Registration successful, navigate to another URL
-                    NavigationManager.NavigateTo("/login"); // Change "/successPage" to the desireds URL
-                }
-                else
-                {
-                    // Registration failed
-                    errorMessage = "Registration failed. Please try again."; // Set your error message
-                }*/
+					NavigationManager.NavigateTo("/");
+				}
+				else
+				{
+					errorMessage = "Please make sure your mail and password are correct.";
+				}
 			}
 			catch (Exception ex)
 			{

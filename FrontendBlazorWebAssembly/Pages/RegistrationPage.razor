@@ -1,4 +1,4 @@
-﻿@page "/register"
+﻿@page "/"
 @inherits RegistrationPageBase;
 <style>
     .gradient-custom-3 {
@@ -25,19 +25,24 @@
             <div class="card-body p-4">
                 <h2 class="text-uppercase text-center mb-4">Create an account</h2>
 
-                <EditForm Model="@User" OnValidSubmit="@RegisterUserHandler">
+                <EditForm Model="@user" OnValidSubmit="@RegisterUserHandler">
                     <div class="form-outline mb-3">
-                        <InputText id="form3Example1cg" class="form-control form-control-lg" @bind-Value="User.Username" />
+                        <InputText id="form3Example1cg" class="form-control form-control-lg" @bind-Value="user.Username"/>
                         <label class="form-label" for="form3Example1cg">Your Name</label>
                     </div>
 
                     <div class="form-outline mb-3">
-                        <InputText id="form3Example3cg" class="form-control form-control-lg" @bind-Value="User.Mail" />
+                        <InputText id="form3Example3cg" class="form-control form-control-lg" @bind-Value="user.Mail"/>
                         <label class="form-label" for="form3Example3cg">Your Email</label>
                     </div>
 
                     <div class="form-outline mb-3">
-                        <InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="User.Password" />
+                        <InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="user.Password"/>
+                        <label class="form-label" for="form3Example4cg">Password</label>
+                    </div>
+
+                    <div class="form-outline mb-3">
+                        <InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="confirmPassword"/>
                         <label class="form-label" for="form3Example4cg">Password</label>
                     </div>
 
@@ -61,7 +66,10 @@
                 }
 
                 <p class="text-center text-muted mt-4 mb-0">
-                    Have already an account? <a href="../Pages/LoginPage.razor" class="fw-bold text-body"><u>Login here</u></a>
+                    Have already an account?
+                    <a href="../Pages/LoginPage.razor" class="fw-bold text-body">
+                        <u>Login here</u>
+                    </a>
                 </p>
             </div>
         </div>

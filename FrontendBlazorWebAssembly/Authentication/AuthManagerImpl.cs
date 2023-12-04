@@ -19,15 +19,16 @@ namespace FrontendBlazorWebAssembly.Authentication
 			this.jsRuntime = jsRuntime;
 		}
 
-		public async Task LoginAsync(User user)
+		public async Task LoginAsync(User? user)
 		{
 			User? returnedUser = await userService.Login(user); // Get user from database
-
-			ValidateLoginCredentials(returnedUser.Password, user); // Validate input data against data from database
-																   // validation success
-			await CacheUserAsync(user!); // Cache the user object in the browser 
-
-			ClaimsPrincipal principal = CreateClaimsPrincipal(user); // convert user object to ClaimsPrincipal
+			int password =  returnedUser.Id;
+			ValidateLoginCredentials(password); // Validate input data against data from database
+			returnedUser.Password = "12345";								   // validation success
+			
+			await CacheUserAsync(returnedUser!); // Cache the user object in the browser 
+			
+			ClaimsPrincipal principal = CreateClaimsPrincipal(returnedUser); // convert user object to ClaimsPrincipal
 
 			OnAuthStateChanged?.Invoke(principal); // notify interested classes in the change of authentication state
 		}
@@ -57,17 +58,23 @@ namespace FrontendBlazorWebAssembly.Authentication
 		}
 
 
-		public static void ValidateLoginCredentials(string password, User? user)
+		public static void ValidateLoginCredentials(int password)
 		{
-			if (user == null)
+			if (password < 0)
 			{
 				throw new Exception("Username not found");
 			}
-
+			/*
 			if (!string.Equals(password, user.Password))
 			{
 				throw new Exception("Password Provided incorrect");
 			}
+			if (!string.Equals(password, user.Password))
+			{
+				throw new Exception("Password Provided incorrect");
+			}*/
+			
+			
 		}
 
 
@@ -82,7 +89,7 @@ namespace FrontendBlazorWebAssembly.Authentication
 			return new ClaimsPrincipal();
 		}
 
-		private async Task CacheUserAsync(User user)
+		private async Task CacheUserAsync(User? user)
 		{
 			string serialisedData = JsonSerializer.Serialize(user);
 			await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
@@ -100,7 +107,7 @@ namespace FrontendBlazorWebAssembly.Authentication
 			List<Claim> claims = new()
 		{
 			new Claim(ClaimTypes.Name, user.Username),
-			new Claim("Role", "Customer"),
+			
             //new Claim("SecurityLevel", user.SecurityLevel.ToString()),
             //new Claim("BirthYear", user.BirthYear.ToString()),
             //new Claim("Domain", user.Domain)

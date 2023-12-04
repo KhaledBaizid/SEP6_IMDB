@@ -56,4 +56,17 @@ public class FavouriteImplementation : IFavouriteInterface
         
 
     }
+
+    public async  Task DeleteFavouriteMovieAsync(int userid, long movieid)
+    {
+        var deletedMovie = new Shared.Favourite
+        {
+            UserId = userid,
+            MovieId = movieid
+        };
+         _systemContext.Favourites?.Attach(deletedMovie);
+        _systemContext.Favourites?.Remove(deletedMovie);
+        await _systemContext.SaveChangesAsync();
+        
+    }
 }

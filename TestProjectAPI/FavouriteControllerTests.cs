@@ -69,4 +69,47 @@ public class FavouriteControllerTests
         Assert.AreEqual(500, objectResult.StatusCode);
         Assert.AreEqual("Some error message", objectResult.Value);
     }
+    
+    [Test]
+    public async Task DeleteMovieToFavourite_Success_ReturnsOkResult()
+    {
+        // Arrange
+        var mockFavouriteService = new Mock<IFavouriteInterface>();
+        mockFavouriteService
+            .Setup(service => service.DeleteFavouriteMovieAsync(It.IsAny<int>(), It.IsAny<long>()))
+            .Verifiable();
+
+        var controller = new FavouriteController(mockFavouriteService.Object);
+
+        // Act
+        var result = await controller.DeleteMovieToFavourite(1, 123);
+
+        // Assert
+      //  var objectResult = (ObjectResult)result;
+      //  Assert.AreEqual(200, objectResult.StatusCode);
+        mockFavouriteService.Verify(service => service.DeleteFavouriteMovieAsync(1, 123), Times.Exactly(1));
+    }
+
+    [Test]
+    public async Task DeleteMovieToFavourite_Exception_ReturnsInternalServerError()
+    {
+        // Arrange
+        var mockFavouriteService = new Mock<IFavouriteInterface>();
+        mockFavouriteService
+            .Setup(service => service.DeleteFavouriteMovieAsync(It.IsAny<int>(), It.IsAny<long>()))
+            .ThrowsAsync(new Exception("Some error"));
+
+        var controller = new FavouriteController(mockFavouriteService.Object);
+
+        // Act
+        var result = await controller.DeleteMovieToFavourite(1, 123);
+
+        // Assert
+        var objectResult = (ObjectResult)result;
+        Assert.AreEqual(500, objectResult.StatusCode);
+      //  var objectResult = result as ObjectResult;
+      Assert.AreEqual(500, objectResult.StatusCode);
+       
+        mockFavouriteService.Verify(service => service.DeleteFavouriteMovieAsync(1, 123), Times.Once);
+    }
 }

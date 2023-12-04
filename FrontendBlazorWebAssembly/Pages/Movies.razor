@@ -1,27 +1,50 @@
-﻿@page "/movies"
+﻿@page "/"
 @using Microsoft.AspNetCore.Components.Authorization
-
+@inherits MoviesBase
 
 <style>
-	.card {
-		border-radius: 10px;
-		margin-top: 5px;
-	}
+	 
+.card-container {
+
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-around;
+        margin-top: 10px;
+    }
+
+    .card {
+        width: 24rem;
+        border-radius: 10px;
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
 
 		.card:hover {
 			background-color: #39445a;
 			transition: 0.7s;
 		}
 
-			.card:hover .card-title {
+			.card:hover .hoverColor{
 				color: white;
 			}
 			
-				.card:hover .cardYear{
-            				color: white;
-            			}
+			 
 			
-			
+	.rate{
+	margin-right: 2px;
+	}
+ 		
+	.rating-info {
+        text-align: right; /* Align rating to the right */
+    }		
 
 	.card-title {
 		color: #39445a;
@@ -41,6 +64,17 @@
 		height: 38px !important;
 		border-radius: 5px !important;
 	}
+	.rating-info {
+        text-align: right;
+        margin-top: auto; /* Push the rating to the bottom */
+    }
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
 </style>
 
 
@@ -65,14 +99,30 @@
 
         </div>
 
-        <div class="card" style="width: 18rem;">
-            <img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
-            <div class="card-body">
-                <h5 class="card-title">Title</h5>
-                <p class="cardYear">Year</p>
+        <div class="card-container">
+            @foreach (var movie in displayMovies)
+            {
+                <div class="card">
+                    <img src="./images/nophoto.jpg" class="card-img-top" alt="My Image">
+                    <div class="card-body">
+                        <div class="movie-info">
+                            <h5 class="card-title hoverColor">Title: @movie.Title </h5>
+                            <p class="cardYear hoverColor">Year: @movie.Year</p>
+                        </div>
 
-                <a href="#" class="btn btn-primary">More Details..</a>
-            </div>
+                        <div class="rating-info">
+                            @{
+                                // Convert the RatingValue to an integer with one decimal place
+                                int ratingValueInt = (int)(movie.Rating.RatingValue * 10);
+                                double ratingValueWithOneDecimal = ratingValueInt / 10.0;
+                            }
+                            <p class="hoverColor"><i class="bi bi-star text-danger rate"></i>Rate: @ratingValueWithOneDecimal</p>
+                        </div>
+
+                        <a href="#" class="btn btn-primary">More Details..</a>
+                    </div>
+                </div>
+            }
         </div>
 
     </NotAuthorized>
@@ -81,21 +131,47 @@
 
         <h3>Hello, @context.User.Identity.Name </h3>
 
+        <div class="input-group">
 
-        <div class="card" style="width: 18rem;">
-            <img src="./images\nophoto.jpg" class="card-img-top" alt="My Image">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+            <div class="form-outline" data-mdb-input-init>
+                <input type="search" id="form1" class="form-control" placeholder="Search"/>
 
-                <a href="#" class="btn btn-primary">Go Details</a>
+
             </div>
+
+
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+                <span class="bi bi-search" aria-hidden="true"></span>
+            </button>
+
+
         </div>
 
-
+        <div class="card-container">
+                   @foreach (var movie in displayMovies)
+                   {
+                       <div class="card">
+                           <img src="./images/nophoto.jpg" class="card-img-top" alt="My Image">
+                           <div class="card-body">
+                               <div class="movie-info">
+                                   <h5 class="card-title hoverColor">Title: @movie.Title </h5>
+                                   <p class="cardYear hoverColor">Year: @movie.Year</p>
+                               </div>
+       
+                               <div class="rating-info">
+                                   @{
+                                       // Convert the RatingValue to an integer with one decimal place
+                                       int ratingValueInt = (int)(movie.Rating.RatingValue * 10);
+                                       double ratingValueWithOneDecimal = ratingValueInt / 10.0;
+                                   }
+                                   <p class="hoverColor"><i class="bi bi-star text-danger rate"></i>Rate: @ratingValueWithOneDecimal</p>
+                               </div>
+       
+                               <a href="#" class="btn btn-primary">More Details..</a>
+                           </div>
+                       </div>
+                   }
+               </div>
     </Authorized>
 
 </AuthorizeView>
-
-@code {
-
-}

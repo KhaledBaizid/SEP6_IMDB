@@ -13,7 +13,7 @@ builder.Services.AddAuthorizationCore();
 
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri("https://localhost:7101")});
+builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri("https://sep6imdbbackend.azurewebsites.net/")});
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRegisterUserService, RegisterUserService>();

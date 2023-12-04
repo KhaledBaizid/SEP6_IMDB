@@ -24,7 +24,7 @@ namespace FrontendBlazorWebAssembly.Pages
 
 				// Call the IAuthManager service with the user object
 				await authManager.LoginAsync(User);
-
+				
 				NavigationManager.NavigateTo("/movies");
 
 				/*

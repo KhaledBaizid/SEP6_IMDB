@@ -17,14 +17,19 @@ builder.Services.AddDbContext<DataContext>();
 builder.Services.AddScoped<IMoviesInterface, MoviesImplementation>();
 builder.Services.AddScoped<IUserInterface, UserImplementation>();
 builder.Services.AddScoped<IFavouriteInterface, FavouriteImplementation>();
-builder.Services.AddCors(options =>  
-{  
-    options.AddDefaultPolicy(  
-        policy =>
-        {
-            policy.AllowAnyOrigin();
-        });  
-}); 
+
+//if u dont add this addCors it https requests from client side will not work and will give problems
+//due to CORS restrictions from web api side. 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 
 var app = builder.Build();
 

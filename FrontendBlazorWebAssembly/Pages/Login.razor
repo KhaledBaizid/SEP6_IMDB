@@ -33,16 +33,16 @@
 					<div class="card-body p-4">
 						<h2 class="text-uppercase text-center mb-4">Create an account</h2>
 
-						<EditForm Model="@User" OnValidSubmit="@LoginUserHandler" Context="myContext">
+						<EditForm Model="@user" OnValidSubmit="@LoginUserHandler" Context="myContext">
 
 
 							<div class="form-outline mb-3">
-								<InputText id="form3Example3cg" class="form-control form-control-lg" @bind-Value="User.Mail" />
+								<InputText id="form3Example3cg" class="form-control form-control-lg" @bind-Value="user.Mail" />
 								<label class="form-label" for="form3Example3cg">Your Email</label>
 							</div>
 
 							<div class="form-outline mb-3">
-								<InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="User.Password" />
+								<InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="user.Password" />
 								<label class="form-label" for="form3Example4cg">Password</label>
 							</div>
 
@@ -71,10 +71,15 @@
 		</div>
 	</NotAuthorized>
 
-	<Authorized>
-		<div class="card">
-			<h3>Hello, @context.User.Identity.Name </h3>
-		</div>
-	</Authorized>
+<Authorized>
+    @if (context.User != null && context.User.Identity != null)
+    {
+        <h3>Hello, @context.User.Identity.Name</h3>
+    }
+    else
+    {
+        <p>User not authenticated</p>
+    }
+</Authorized>
 
 </AuthorizeView>

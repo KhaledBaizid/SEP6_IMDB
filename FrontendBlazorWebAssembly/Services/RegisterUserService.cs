@@ -57,30 +57,7 @@ namespace FrontendBlazorWebAssembly.Services
                 throw new Exception($"Failed to register user. Status code: {response.StatusCode}");
             }
         }
-        /*
-        public async Task<User> RegisterUser(User user)
-        {
-            
-            var Response = await httpClient.GetFromJsonAsync<User>($"/User", {user});
-            return Response;
-              
-            
-            
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync($"/User", user);
-
-            if (response.IsSuccessStatusCode)
-            {
-                // Read and return the User from the response
-                return await response.Content.ReadFromJsonAsync<User>();
-            }
-            else
-            {
-                // Handle the error or return null, depending on your requirements
-                return null;
-            }
-            
-        }
-        */
+         
   
     }
 }

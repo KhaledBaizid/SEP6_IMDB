@@ -3,13 +3,17 @@
 
 @using Microsoft.AspNetCore.Components.Authorization
 
+
+<style>
+body{
+background-color: #B2B2B2;
+}
+
+</style>
 <AuthorizeView>
     <NotAuthorized>
 
-        @* <div class="sidebar"> *@
-        @*     <NavMenu/> *@
-        @* </div> *@
-
+    
         <Navbar/>
         <main>
 
@@ -21,9 +25,7 @@
     </NotAuthorized>
     <Authorized>
 
-        @* <div class="sidebar"> *@
-        @*     <NavMenu/> *@
-        @* </div> *@
+      
         <Navbar/>
 
         <main>

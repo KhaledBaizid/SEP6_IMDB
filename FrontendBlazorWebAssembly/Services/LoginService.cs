@@ -20,18 +20,7 @@ namespace FrontendBlazorWebAssembly.Services
 
             var Response = await httpClient.GetFromJsonAsync<User>($"/User?mail={mail}&password={password}");
             return Response;
-            /*
-             if (httpResponse.IsSuccessStatusCode)
-             {
-                 // Read and return the User from the response
-                 User? response = await httpResponse.Content.ReadFromJsonAsync<User>();
-                 return response;
-             }
-             else
-             {
-                 // Handle the error or return null, depending on your requirements
-                 return null;
-             }*/
+             
         }
     }
 }

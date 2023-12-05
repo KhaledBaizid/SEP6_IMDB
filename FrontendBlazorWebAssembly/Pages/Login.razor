@@ -6,10 +6,10 @@
 
 <AuthorizeView>
 
-	<NotAuthorized>
+    <NotAuthorized>
 
 
-		<style>
+        <style>
 			.gradient-custom-3 {
 				background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
 				background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
@@ -27,59 +27,61 @@
 
 		</style>
 
-		<div class="row justify-content-center align-items-center">
-			<div class="col-12 col-md-9 col-lg-7 col-xl-6 mycard">
-				<div class="card" style="border-radius: 15px;">
-					<div class="card-body p-4">
-						<h2 class="text-uppercase text-center mb-4">Create an account</h2>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6 mycard">
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <h2 class="text-uppercase text-center mb-4">Create an account</h2>
 
-						<EditForm Model="@user" OnValidSubmit="@LoginUserHandler" Context="myContext">
-
-
-							<div class="form-outline mb-3">
-								<InputText id="form3Example3cg" class="form-control form-control-lg" @bind-Value="user.Mail" />
-								<label class="form-label" for="form3Example3cg">Your Email</label>
-							</div>
-
-							<div class="form-outline mb-3">
-								<InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="user.Password" />
-								<label class="form-label" for="form3Example4cg">Password</label>
-							</div>
+                        <EditForm Model="@user" OnValidSubmit="@LoginUserHandler" Context="myContext">
 
 
+                            <div class="form-outline mb-3">
+                                <InputText id="form3Example3cg" class="form-control form-control-lg" @bind-Value="user.Mail"/>
+                                <label class="form-label" for="form3Example3cg">Your Email</label>
+                            </div>
 
-							<div class="d-grid gap-2">
-								<button type="submit" class="btn btn-success btn-lg gradient-custom-4 text-body">
-									Login
-								</button>
-							</div>
-						</EditForm>
+                            <div class="form-outline mb-3">
+                                <InputText id="form3Example4cg" class="form-control form-control-lg" @bind-Value="user.Password"/>
+                                <label class="form-label" for="form3Example4cg">Password</label>
+                            </div>
 
-						@if (!string.IsNullOrEmpty(errorMessage))
-						{
-							<div class="alert alert-danger mt-4" role="alert">
-								@errorMessage
-							</div>
-						}
 
-						@* <p class="text-center text-muted mt-4 mb-0">
-						Have already an account? <a href="../Pages/LoginPage.razor" class="fw-bold text-body"><u>Login here</u></a>
-						</p> *@
-					</div>
-				</div>
-			</div>
-		</div>
-	</NotAuthorized>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg gradient-custom-4 text-body">
+                                    Login
+                                </button>
+                            </div>
+                        </EditForm>
 
-<Authorized>
-    @if (context.User != null && context.User.Identity != null)
-    {
-        <h3>Hello, @context.User.Identity.Name</h3>
-    }
-    else
-    {
-        <p>User not authenticated</p>
-    }
-</Authorized>
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger mt-4" role="alert">
+                                @errorMessage
+                            </div>
+                        }
+
+                        <p class="text-center text-muted mt-4 mb-0">
+                            Register if You dont Have an account!
+                            <a href="/register " class="fw-bold text-body">
+                                <u>Register here</u>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </NotAuthorized>
+
+    <Authorized>
+        @if (context.User != null && context.User.Identity != null)
+        {
+            <h3>Hello, @context.User.Identity.Name</h3>
+        }
+        else
+        {
+            <p>User not authenticated</p>
+        }
+    </Authorized>
 
 </AuthorizeView>

@@ -24,5 +24,7 @@ public class User
     public List<Favourite>? Favourites { get; set; }
     [JsonIgnore]
     public List<UserRating>? UserRatings { get; set; }
+    [JsonIgnore]
+    public List<UserComment>? UserComments { get; set; }
 
 }

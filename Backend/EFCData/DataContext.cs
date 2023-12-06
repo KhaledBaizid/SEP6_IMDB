@@ -15,6 +15,7 @@ public class DataContext : DbContext
     public DbSet<Rating>? Ratings { get; set; } = null;
     public DbSet<UserRating>? UserRatings { get; set; } = null;
     public DbSet<Favourite>? Favourites { get; set; } = null;
+    public DbSet<UserComment>? UserComments { get; set; } = null;
     
     protected readonly IConfiguration Configuration;
 
@@ -109,6 +110,17 @@ public class DataContext : DbContext
             .HasOne(ur => ur.User)
             .WithMany(u => u.UserRatings)
             .HasForeignKey(ur => ur.UserId);
+        
+        //UserComment
+        modelBuilder.Entity<UserComment>().HasKey(uc => uc.Id);
+        
+        modelBuilder.Entity<UserComment>().HasOne(uc => uc.Movie)
+            .WithMany(m=>m.UserComments)
+            .HasForeignKey(uc => uc.MovieId);
+        
+        modelBuilder.Entity<UserComment>().HasOne(uc => uc.User)
+            .WithMany(u=>u.UserComments)
+            .HasForeignKey(uc => uc.UserId);
     }
 }
     

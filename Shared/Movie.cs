@@ -16,6 +16,8 @@ public class Movie
     
     public decimal? Year { get; set; }
     
+    
+  
     public List<Star>? Stars { get; set; }
     
     public List<Director>? Directors { get; set; }

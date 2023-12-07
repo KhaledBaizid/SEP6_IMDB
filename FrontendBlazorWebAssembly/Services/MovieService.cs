@@ -60,7 +60,7 @@ public class MovieService : IMovieService
                 if (movieDetails.poster_path != null)
                 {
                     string baseImageUrl = "https://image.tmdb.org/t/p/";
-                    string posterUrl = $"{baseImageUrl}w342/{movieDetails.poster_path}";
+                    string posterUrl = $"{baseImageUrl}w185/{movieDetails.poster_path}";
                     movieDetails.poster_path = posterUrl;
                     movieDetails.id = movieId;
                     Console.WriteLine("Poster URL: " + posterUrl);

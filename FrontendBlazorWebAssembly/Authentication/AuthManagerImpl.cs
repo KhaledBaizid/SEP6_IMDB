@@ -12,6 +12,7 @@ namespace FrontendBlazorWebAssembly.Authentication
 		private readonly ILoginService userService;
 		private readonly IJSRuntime jsRuntime;
 
+		private int userId;
 
 		public AuthManagerImpl(ILoginService userService, IJSRuntime jsRuntime)
 		{
@@ -23,8 +24,10 @@ namespace FrontendBlazorWebAssembly.Authentication
 		{
 			User? returnedUser = await userService.Login(user); // Get user from database
 			int password =  returnedUser.Id;
+			userId =  returnedUser.Id;
+			
 			ValidateLoginCredentials(password); // Validate input data against data from database
-			returnedUser.Password = "12345";								   // validation success
+			//returnedUser.Password = "12345";								   // validation success
 			
 			await CacheUserAsync(returnedUser!); // Cache the user object in the browser 
 			
@@ -33,8 +36,14 @@ namespace FrontendBlazorWebAssembly.Authentication
 			OnAuthStateChanged?.Invoke(principal); // notify interested classes in the change of authentication state
 		}
 
+		public async Task<int> GetUserId()
+		{
+			return userId;
+		}
+
 		public async Task LogoutAsync()
 		{
+			userId = 0;
 			await ClearUserFromCacheAsync(); // remove the user object from browser cache
 			ClaimsPrincipal principal = CreateClaimsPrincipal(null); // create a new ClaimsPrincipal with nothing.
 			OnAuthStateChanged?.Invoke(principal); // notify about change in authentication state
@@ -54,6 +63,7 @@ namespace FrontendBlazorWebAssembly.Authentication
 			string userAsJson = await jsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
 			if (string.IsNullOrEmpty(userAsJson)) return null;
 			User user = JsonSerializer.Deserialize<User>(userAsJson)!;
+			
 			return user;
 		}
 

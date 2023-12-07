@@ -1,3 +1,4 @@
+using Backend.DataAccessObjects.Comment;
 using Backend.DataAccessObjects.Favourite;
 using Backend.DataAccessObjects.Movies;
 using Backend.DataAccessObjects.User;
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<DataContext>();
 builder.Services.AddScoped<IMoviesInterface, MoviesImplementation>();
 builder.Services.AddScoped<IUserInterface, UserImplementation>();
 builder.Services.AddScoped<IFavouriteInterface, FavouriteImplementation>();
+builder.Services.AddScoped<ICommentInterface, CommentImplementation>();
 
 //if u dont add this addCors it https requests from client side will not work and will give problems
 //due to CORS restrictions from web api side. 

@@ -21,8 +21,19 @@ public class MoviesImplementation: IMoviesInterface
         {
             movies = await _systemContext.Movies?.Include(s=>s.Stars)!.ThenInclude(s=>s.Person)
                 .Include(d=>d.Directors)!.ThenInclude(d=>d.Person)
-                .Include(r=>r.Rating).Take(100)
+                .Include(r=>r.Rating)
+                .Include(u=>u.UserComments)!.ThenInclude(uc=>uc.User)
+                .Take(100)
                 .ToListAsync()!;
+            foreach (var movie in  movies)
+            {
+                if (movie.UserComments != null)
+                    foreach (var userComment in movie.UserComments)
+                    {
+                        if (userComment.User != null) userComment.User.Password = null;
+                        if (userComment.User != null) userComment.User.Mail = null;
+                    }
+            }
         }
         catch (Exception e)
         {
@@ -41,8 +52,19 @@ public class MoviesImplementation: IMoviesInterface
         {
             movies = await _systemContext.Movies?.Where(d=>d.Title != null && d.Title.ToLower().Contains(title.ToLower())).Include(s=>s.Stars)!.ThenInclude(s=>s.Person)
                 .Include(d=>d.Directors)!.ThenInclude(d=>d.Person)
-                .Include(r=>r.Rating).Take(100)
+                .Include(r=>r.Rating).
+                 Include(r=>r.Rating).Include(u=>u.UserComments)!.ThenInclude(uc=>uc.User).Take(100)
                 .ToListAsync()!;
+            foreach (var movie in  movies)
+            {
+                if (movie.UserComments != null)
+                    foreach (var userComment in movie.UserComments)
+                    {
+                        if (userComment.User != null) userComment.User.Password = null;
+                        if (userComment.User != null) userComment.User.Mail = null;
+                    }
+            }
+            
         }
         catch (Exception e)
         {

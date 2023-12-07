@@ -69,4 +69,24 @@ public class UserImplementation : IUserInterface
             throw;
         }
     }
+
+    public async Task<long> GetUserIdByUsername(string username)
+    {
+        try
+        {
+            if (_systemContext.Users != null)
+            {
+                var findUser = await _systemContext.Users.FirstOrDefaultAsync(e=>e.Username==username);
+                if (findUser != null) return findUser.Id;
+            }
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return -1;
+    }
 }

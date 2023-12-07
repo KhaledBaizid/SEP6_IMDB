@@ -32,6 +32,21 @@ public class UserController : ControllerBase
    }
    [EnableCors] 
    [HttpGet]
+   [Route("username/{username}")]
+   public async Task<ActionResult<long>> GetLoginUserIdByUsername(string username)
+   {
+      try
+      {
+         return StatusCode(200,await _userInterface.GetUserIdByUsername(username)); 
+      }
+      catch (Exception e)
+      {
+         return   StatusCode(500, e.Message);
+      }
+   }
+   
+   [EnableCors] 
+   [HttpGet]
    public async Task<ActionResult<User>> GetLoginUserId(string mail, string password)
    {
       try

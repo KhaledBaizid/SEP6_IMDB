@@ -44,7 +44,19 @@ public class FavouriteImplementation : IFavouriteInterface
         {
             List<Shared.Favourite> favourites = new List<Shared.Favourite>();
             favourites= await _systemContext.Favourites.Where(f=>f.UserId==id).Include(m=>m.Movie).ThenInclude(s=>s.Stars).ThenInclude(s=>s.Person)
-                .Include(m=>m.Movie).ThenInclude(d=>d.Directors).ThenInclude(d=>d.Person).Include(m=>m.Movie.Rating).ToListAsync();
+                .Include(m=>m.Movie).ThenInclude(d=>d.Directors).ThenInclude(d=>d.Person).Include(m=>m.Movie).ThenInclude(u=>u.UserComments)!.ThenInclude(uc=>uc.User)
+                .Include(m=>m.Movie.Rating)
+                .ToListAsync();
+            
+            foreach (var favourite in  favourites)
+            {
+                if (favourite.Movie?.UserComments != null)
+                    foreach (var userComment in favourite.Movie.UserComments)
+                    {
+                        if (userComment.User != null) userComment.User.Password = null;
+                        if (userComment.User != null) userComment.User.Mail = null;
+                    }
+            }
             return favourites;
         }
         catch (Exception e)

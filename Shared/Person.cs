@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Shared;
 
-public class Person
+public class  Person
 {   
     
     [Key]

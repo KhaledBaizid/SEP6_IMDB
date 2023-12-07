@@ -1,5 +1,5 @@
 ﻿@using FrontendBlazorWebAssembly.Authentication
- 
+
 @using Microsoft.AspNetCore.Components.Authorization
 
 <style>
@@ -53,77 +53,76 @@
 </style>
 
 <AuthorizeView>
-	<NotAuthorized>
+    <NotAuthorized>
 
-		<nav class="navbar navbar-expand-lg navbar-light ">
-			<a class="navbar-brand" href="/">Movies Hub</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <a class="navbar-brand" href="/">Movies</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only"></span></a>
-					</li>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+ 
+                </ul>
 
-					<li class="nav-item">
-						<a class="nav-link" href="/movies">Movies</a>
-					</li>
-				</ul>
+                <div class="ms-auto LoginBtn">
 
-				<div class="ms-auto LoginBtn">
-					
-					<button class="btn btn-outline-success my-2 my-sm-0" @onclick="Login"><i class="bi bi-box-arrow-in-right loginIcon">Login</i></button>
-				</div>
-			</div>
-		</nav>
+                    <button class="btn btn-outline-success my-2 my-sm-0" @onclick="Login">
+                        <i class="bi bi-box-arrow-in-right loginIcon">Login</i>
+                    </button>
+                </div>
+            </div>
+        </nav>
 
-	</NotAuthorized>
+    </NotAuthorized>
 
-	<Authorized>
-		<nav class="navbar navbar-expand-lg navbar-light ">
-			<a class="navbar-brand" href="#">Movies Hub</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+    <Authorized>
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <a class="navbar-brand" href="/">Movies</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only"></span></a>
-					</li>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
 
-					<li class="nav-item">
-						<a class="nav-link" href="/movies">Movies</a>
-					</li>
-				</ul>
 
-				<div class="ms-auto LoginBtn">
-					<button class="btn btn-outline-success my-2 my-sm-0" @onclick="Logout"><i class="bi bi-box-arrow-in-left">Logout </i></button>
-				</div>
-			</div>
-		</nav>
-		 
-	</Authorized>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/favourite">Favourite</a>
+                    </li>
+                </ul>
+
+                <div class="ms-auto LoginBtn">
+                    <button class="btn btn-outline-success my-2 my-sm-0" @onclick="Logout">
+                        <i class="bi bi-box-arrow-in-left">Logout</i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+    </Authorized>
 
 </AuthorizeView>
 
 @code {
 
-	[Inject] public NavigationManager NavigationManager { get; set; }
-	[Inject] public IAuthManager iAuthService { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
-	protected async Task Login()
-	{
-		NavigationManager.NavigateTo("/Login");
+    [Inject]
+    public IAuthManager iAuthService { get; set; }
 
-	}
+    protected async Task Login()
+    {
+        NavigationManager.NavigateTo("/Login");
+    }
 
-	protected async Task Logout()
-	{
-		NavigationManager.NavigateTo("/");
-		await iAuthService.LogoutAsync();
-	}
+    protected async Task Logout()
+    {
+        NavigationManager.NavigateTo("/");
+
+        await iAuthService.LogoutAsync();
+    }
 
 }

@@ -1,3 +1,6 @@
+using System.Collections.Immutable;
+using Blazored.Toast;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using FrontendBlazorWebAssembly;
@@ -19,5 +22,6 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRegisterUserService, RegisterUserService>();
 builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthenticationStateProvider>();
 builder.Services.AddScoped<IAuthManager, AuthManagerImpl>();
-
+builder.Services.AddScoped<IFavouriteService, FavouriteService>();
+builder.Services.AddSweetAlert2();
 await builder.Build().RunAsync();

@@ -1,0 +1,157 @@
+﻿@page "/favourite/favouriteDetails"
+
+@inherits DetailsBase
+@using Microsoft.AspNetCore.Components.Authorization
+ 
+@inject SweetAlertService Swal;
+ 
+<style>
+    #details-container {
+         margin: 110px;
+    }
+
+    .title {
+        text-align: center;
+        width: 100%;
+        background-color: #2c3034;
+        border-radius: 20px;
+        display: inline-block;
+        padding: 10px;
+        color: white;
+        
+    }
+
+    .imgAndOverview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .theImg {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        border-radius: 20px;
+        transition: transform 0.3s ease-in-out;
+    }
+     .theImg:hover {
+            transform: scale(1.1); /* Increase the scale to zoom in a bit */
+        }
+
+    .overview {
+        flex: 1;
+        margin-top: 5px;
+        border-radius: 5px;
+        color: black;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+    }
+
+    .overview:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: white;
+        transition: 0.7s;
+    }
+
+    .release-date {
+        margin-top: 10px;
+    }
+
+    .rating {
+        display: flex;
+        margin-top: 10px;
+        justify-content: center;
+        
+    }
+
+    .rating i {
+        margin-right: 5px;
+    }
+    .addBtn{
+                  display: grid;
+                  height: 50px !important;
+    }
+    @@media (max-width: 915px) {
+        .imgAndOverview {
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+        }
+
+        .overview {
+            margin-top: 20px; /* Add space between image and overview */
+        }
+        
+           .theImg {
+           
+             margin-top: 25px;
+                width: 100%;
+                 
+            }
+    }
+</style>
+
+<AuthorizeView>
+ 
+    <Authorized>
+                 @if (SelectedMovie != null)
+                    {
+                        <div id="details-container">
+                            <h3 class="title">@SelectedMovie.Title</h3>
+            
+                            <div class="imgAndOverview">
+                                @if (!string.IsNullOrEmpty(MovieDetails.poster_path))
+                                {
+                                    <img class="theImg" src="@($"https://image.tmdb.org/t/p/w500/{MovieDetails.poster_path}")" alt="Poster"/>
+                                }
+                                else
+                                {
+                                    <p>Sorry the img for this movie does not exist</p>
+                                }
+            
+            
+                                <div class="overview">
+                                    <div class="rating">
+            
+                                        <i class="bi bi-star-fill text-warning"></i>
+            
+                                        @if (SelectedMovie.Rating != null)
+                                        {
+                                            // Convert the RatingValue to an integer with one decimal place
+                                            int ratingValueInt = (int)(SelectedMovie.Rating.RatingValue * 10);
+                                            double ratingValueWithOneDecimal = ratingValueInt / 10.0;
+            
+                                            <h5 class="text-muted">@ratingValueWithOneDecimal</h5>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Rating not provided</span>
+                                        }
+                                    </div>
+            
+                                    @if (MovieDetails.Overview != null)
+                                    {
+                                        <p>@MovieDetails.Overview</p>
+                                        <h4 class="release-date">Release Date: @MovieDetails.release_date</h4>
+                                    }
+                                    else
+                                    {
+                                        <p>Futher information not found </p>
+                                    }
+            
+                                </div>
+                                
+                           
+                            </div>
+                            
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Movie not found @ErrorMessage</p>
+                    }
+
+
+    </Authorized>
+
+</AuthorizeView>

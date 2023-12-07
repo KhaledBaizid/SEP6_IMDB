@@ -1,5 +1,6 @@
-﻿@page "/favourite"
+﻿@page "/movies/favourite"
 @inherits FavouriteBase
+ @inject AuthenticationStateProvider AuthenticationStateProvider
 @using Microsoft.AspNetCore.Components.Authorization
  
 <style>
@@ -83,15 +84,17 @@ justify-content: center;
 
 <AuthorizeView>
 
-    <NotAuthorized>
-        <h1>You are not logged in </h1>
+      
+    <Authorized>
 
+        <h3>Hello, @context.User.Identity.Name </h3>
+  
         <div class="input-group">
 
             <div class="form-outline" data-mdb-input-init>
-                @* <InputText type="search" id="form1" class="form-control" placeholder="Search" @bind-Value="title"   /> *@
+                @* <InputText type="search" id="form1" class="form-control" placeholder="Search" @bind-Value="title"   />  *@
             
-                <InputText type="search" @bind-Value="title" @oninput="SearchOnInput" class="form-control" placeholder="Search" />
+              <InputText type="search" @bind-Value="title" @oninput="SearchOnInput" class="form-control" placeholder="Search" />  
 
             </div>
 
@@ -104,89 +107,42 @@ justify-content: center;
         </div>
 
         <div class="card-container">
-            @foreach (var movie in displayMovies )
+            @foreach (var favourite in displayFavouriteMovies )
             {
                 <div class="card">
-                    
-                    @if (@getimage(movie.Id) == null)
+                  
+                    @if (@getimage(favourite.Movie.Id) == null)
                     {
                         <img class="theImg" src="images/9bd42fa2d404d41d1043f4f7668f24ae.jpg" alt="Poster"/>
                     }
                     else
                     {
                      
-                        <img class="theImg" src="@getimage(movie.Id)" alt="Poster"/>
+                        <img class="theImg" src="@getimage(favourite.Movie.Id)" alt="Poster"/>
                     }
-
+                   
                     <div class="card-body">
                         <div class="movie-info">
-                            <h5 class="card-title hoverColor">Title: @movie.Title </h5>
-                            <p class="cardYear hoverColor">Year: @movie.Year</p>
-                            <p class="cardYear hoverColor">Votes: @movie.Rating.Votes</p>
+                            <h5 class="card-title hoverColor">Title: @favourite.Movie.Title </h5>
+                            <p class="cardYear hoverColor">Year: @favourite.Movie.Year</p>
+                            <p class="cardYear hoverColor">Votes: @favourite.Movie.Rating.Votes</p>
                         </div>
 
                         <div class="rating-info">
                             @{
                                 // Convert the RatingValue to an integer with one decimal place
-                                int ratingValueInt = (int)(movie.Rating.RatingValue * 10);
+                                int ratingValueInt = (int)(favourite.Movie.Rating.RatingValue * 10);
                                 double ratingValueWithOneDecimal = ratingValueInt / 10.0;
                             }
                             <p class="hoverColor"><i class="bi bi-star-fill  text-danger rate"></i>Rate: @ratingValueWithOneDecimal</p>
                         </div>
 
-                        <a href="@($"movies/details/{movie.Id}")" class="btn btn-primary">More Details..</a>
+                        <a href="/favourite/favouriteDetails" class="btn btn-primary">More Details..</a>
+                        <button style="margin-top: 5px; width: 50%;    margin-left:25%; margin-right:25%;"  @onclick="(e) => Delete((long)favourite.Movie.Id)"  type="button" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             }
         </div>
-
-    </NotAuthorized>
-
-    <Authorized>
-
-        <h3>Hello, @context.User.Identity.Name </h3>
-
-        <div class="input-group">
-
-            <div class="form-outline" data-mdb-input-init>
-                <input type="search" id="form1" class="form-control" placeholder="Search"/>
-
-
-            </div>
-
-
-            <button type="button" class="btn btn-primary" data-mdb-ripple-init>
-                <span class="bi bi-search" aria-hidden="true"></span>
-            </button>
-
-
-        </div>
-
-        <div class="card-container">
-                   @foreach (var movie in displayMovies)
-                   {
-                       <div class="card">
-                           <img src="./images/nophoto.jpg" class="card-img-top" alt="My Image">
-                           <div class="card-body">
-                               <div class="movie-info">
-                                   <h5 class="card-title hoverColor">Title: @movie.Title </h5>
-                                   <p class="cardYear hoverColor">Year: @movie.Year</p>
-                               </div>
-       
-                               <div class="rating-info">
-                                   @{
-                                       // Convert the RatingValue to an integer with one decimal place
-                                       int ratingValueInt = (int)(movie.Rating.RatingValue * 10);
-                                       double ratingValueWithOneDecimal = ratingValueInt / 10.0;
-                                   }
-                                   <p class="hoverColor"><i class="bi bi-star text-danger rate"></i>Rate: @ratingValueWithOneDecimal</p>
-                               </div>
-       
-                               <a href="#" class="btn btn-primary">More Details..</a>
-                           </div>
-                       </div>
-                   }
-               </div>
     </Authorized>
 
 </AuthorizeView>

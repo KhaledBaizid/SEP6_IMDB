@@ -1,7 +1,9 @@
 ﻿@page "/fetch"
 @using FrontendBlazorWebAssembly.Services
 @using global::Shared
-@inject HttpClient Http
+@using Newtonsoft.Json
+@using System.Net
+@using System.Runtime.CompilerServices
 @inject IMovieService _moviesService
 
 <PageTitle>List of 100 movies</PageTitle>
@@ -10,122 +12,147 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@* @if (forecasts == null) *@
-@* { *@
-@*     <p> *@
-@*         <em>Loading...</em> *@
-@*     </p> *@
-@* } *@
-@* else *@
-@* { *@
-@*     <table class="table"> *@
-@*         <thead> *@
-@*         <tr> *@
-@*             <th>Date</th> *@
-@*             <th>Temp. (C)</th> *@
-@*             <th>Temp. (F)</th> *@
-@*             <th>Summary</th> *@
-@*         </tr> *@
-@*         </thead> *@
-@*         <tbody> *@
-@*         @foreach (var forecast in forecasts) *@
-@*         { *@
-@*             <tr> *@
-@*                 <td>@forecast.Date.ToShortDateString()</td> *@
-@*                 <td>@forecast.TemperatureC</td> *@
-@*                 <td>@forecast.TemperatureF</td> *@
-@*                 <td>@forecast.Summary</td> *@
-@*             </tr> *@
-@*         } *@
-@*         </tbody> *@
-@*     </table> *@
-@* } *@
+@if (displayMovies == null || !displayMovies.Any())
+{
+    <p>Loading data...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Rating</th>
+                <th>Votes</th>
+                <th>Stars</th>
+                <th>Directors</th>
+                <th>Images</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in displayMovies)
+            {
+                <tr>
+                    <td>@movie.Title</td>
+                    <td>@(movie.Rating?.RatingValue)</td>
+                    <td>@(movie.Rating?.Votes)</td>
+                    <td>
+                        @if (movie.Stars != null)
+                        {
+                            foreach (var star in movie.Stars)
+                            {
+                                <ul>
+                                    <li>@star.Person?.Name</li>
+                                </ul>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (movie.Directors != null)
+                        {
+                            foreach (var director in movie.Directors)
+                            {
+                                <ul>
+                                    <li>@director.Person?.Name</li>
+                                </ul>
+                            }
+                        }
+                    </td>
+                    <td>
+                       
+                        <img src="@getimage(movie.Id)" alt="">
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-@if (!displayMovies.Any())
-           {
-               <p>Loading data...</p>
-           }
-           else
-           {
-               @* @foreach (Movie movie in displayMovies) *@
-               @* { *@
-               @*     <p> @movie.Title </p> *@
-               @*     <p> @movie.Rating.RatingValue </p>    *@
-               @*     <p> @movie.Rating.Votes</p>                    *@
-               @*      *@
-               @* } *@
-               <table class="table">
-                   <thead>
-                   <tr>
-                       <th>Movie</th>
-                       <th>Rating</th>
-                       <th>Votes</th>
-                       <th>Stars</th>
-                       <th>Directors</th>
-                   </tr>
-                   </thead>
-                   <tbody>
-                   @foreach (var movie in displayMovies)
-                   {
-                       <tr>
-                           <td>@movie.Title</td>
-                           <td>
-                               @if (movie.Rating != null)
-                               {
-                                   // Math.Round((double)@movie.Rating.RatingValue, 2);
-                                   @movie.Rating.RatingValue
-                               }
-                           </td>
-                           <td>
-                               @if (movie.Rating != null)
-                               {
-                                   @movie.Rating.Votes
-                               }
-                           </td>
-                           <td>
-                               @if (@movie.Stars != null)
-                               {
-                                   foreach (var star in @movie.Stars)
-                                   {
-                                       <ul>
-                                           <li>@star.Person?.Name</li>
-                                       </ul>
-                                   }
-                               }
-                           </td>
-                            <td>
-                                @if (@movie.Directors!= null)
-                                {
-                                    foreach (var director in @movie.Directors)
-                                    {
-                                       <ul>
-                                           <li>@director.Person?.Name</li>
-                                       </ul>
-                                    }
-                                }
-                            </td>
-                       </tr>
-                   }
-                   </tbody>
-               </table>
-           }
 @code {
-    public List<Movie> displayMovies { get; set; } = new();
-    // private WeatherForecast[]? forecasts;
-
+    public List<Movie> displayMovies { get; set; }
+    public List<Movie> displayMovies1 { get; set; }
+    
+    public List<MovieDetails> MovieDetailsList = new List<MovieDetails>();
+    
     protected override async Task OnInitializedAsync()
+    { 
+        displayMovies1 = await _moviesService.GetAllMovies(); // get the list of movies from our api
+         
+        foreach (var movies in displayMovies1 )   // get the detailsmovies from TMDB for each movie from  displayMovies1
+        {
+          
+            await GetDataFromTMDB(movies.Id);
+           
+        }
+        displayMovies = displayMovies1; // the Page has to render displaymovies
+    // displayMovies = displayMovies1;
+    }
+
+    public string getimage(long? id)
+    {  Console.WriteLine(id);
+        string movieid = "tt" + id;
+        var movieDetails = MovieDetailsList.Find(e => e.id == movieid);
+        if (movieDetails != null)
+        {
+            var url = movieDetails.Poster_Path;
+            return url;
+        }
+        
+      //  var t = await "https://image.tmdb.org/t/p/w342//v4QfYZMACODlWul9doN9RxE99ag.jpg".ToString();
+        return "";
+        
+
+    }
+
+    public async Task GetDataFromTMDB(long? id)
     {
-        displayMovies = await _moviesService.GetAllMoviesByTitle("solo");    }
+        string apiKey = "ae0f2e272e203b9b5ee2325e8c46ef70";
+        string movieId = "tt" + id;
+        string apiUrl = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={apiKey}";
 
-    // public class WeatherForecast
-    // {
-    //     public DateOnly Date { get; set; }
-    //
-    //     public int TemperatureC { get; set; }
-    //
-    //     public string? Summary { get; set; }
-    //
-    //     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    // }
+        using (HttpClient httpClient = new HttpClient())
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    MovieDetails movieDetails = JsonConvert.DeserializeObject<MovieDetails>(json);
+
+                    if (movieDetails.Poster_Path != null)
+                    {
+                        string baseImageUrl = "https://image.tmdb.org/t/p/";
+                        string posterUrl = $"{baseImageUrl}w342/{movieDetails.Poster_Path}";
+                        movieDetails.Poster_Path = posterUrl;
+                        movieDetails.id = movieId;
+                        Console.WriteLine("Poster URL: " + posterUrl);
+                        var m = new MovieDetails { id = movieId, Poster_Path = posterUrl };
+                       
+                        MovieDetailsList.Add(m);
+                        int i = MovieDetailsList.Count;
+                        Console.WriteLine(i);
+                       
+                    }
+                    
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+      
+    }
+
+    public class MovieDetails
+    {  public string id { get; set; }
+        public string Poster_Path { get; set; }
+        
+    }
 }

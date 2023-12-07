@@ -14,6 +14,7 @@ public class DetailsBase : ComponentBase
     public List<Movie?> displayMovies { get; set; } = new();
     public Movie? SelectedMovie { get; set; } = new Movie(); // Property to store the selected movie
     public int userId { get; set; }
+
     public MovieDetails? MovieDetails { get; set; } = new MovieDetails(); // Property to store the selected movie
     public Favourite _Favourite { get; set; } = new Favourite();
   
@@ -31,9 +32,12 @@ public class DetailsBase : ComponentBase
 
     [Inject] protected SweetAlertService MySweetAlertService { get; set; }
 
+    public List<Director> PersonsDirectors{ get; set; } =  new List<Director>();
+
     protected async override Task OnInitializedAsync()
     {
         userId = await authManager.GetUserId();
+       
         // If Id is null, then it gets assigned the value "1".
         Id = Id ?? "1";
 
@@ -43,11 +47,17 @@ public class DetailsBase : ComponentBase
         // Find the selected movie by ID
         SelectedMovie = displayMovies.FirstOrDefault(m => m.Id.ToString() == Id);
 
+      
+
         int MovieId = Convert.ToInt32(Id);
+ 
+        
 
         try
         {
             MovieDetails = await _MovieService.GetMovieDetails(MovieId);
+            
+          //  PersonsDirectors = SelectedMovie.Directors.FindAll(director => director.MovieId == SelectedMovie.Id);
         }
         catch (Exception ex)
         {
@@ -113,6 +123,7 @@ public class DetailsBase : ComponentBase
             {
                 ShowAlert();
             }
+            StateHasChanged();
         }
     }
 
@@ -157,7 +168,7 @@ public class DetailsBase : ComponentBase
         }
        
         await IFavouriteService.GetListOfFavouriteMovies(userId);
-        NavigationManager.NavigateTo("/favourite");
+        NavigationManager.NavigateTo("/movies/favourite");
     }
 
     /*

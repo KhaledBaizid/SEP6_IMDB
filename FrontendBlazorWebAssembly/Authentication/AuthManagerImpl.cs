@@ -35,7 +35,11 @@ namespace FrontendBlazorWebAssembly.Authentication
 
 			OnAuthStateChanged?.Invoke(principal); // notify interested classes in the change of authentication state
 		}
-
+		public async Task<int> GetUserIdFromCache()
+		{
+			User? user = await GetUserFromCacheAsync();
+			return user?.Id ?? 0;
+		}
 		public async Task<int> GetUserId()
 		{
 			return userId;

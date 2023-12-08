@@ -58,7 +58,7 @@ public class FavouriteBase : ComponentBase
     {
         try
         {
-            userId = await authManager.GetUserId();
+          //  userId = await authManager.GetUserId();
 
             long theUserID = userId; //this is problem because when u refresh your browser you variable will be set to null so u canot get the GetListOfFavouriteMovies by null.
                                      //you have to save the user id in cashes and get it from there.

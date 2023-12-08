@@ -23,5 +23,6 @@ builder.Services.AddScoped<IRegisterUserService, RegisterUserService>();
 builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthenticationStateProvider>();
 builder.Services.AddScoped<IAuthManager, AuthManagerImpl>();
 builder.Services.AddScoped<IFavouriteService, FavouriteService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddSweetAlert2();
 await builder.Build().RunAsync();

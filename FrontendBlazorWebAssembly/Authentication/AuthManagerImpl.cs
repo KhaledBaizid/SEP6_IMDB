@@ -76,7 +76,7 @@ namespace FrontendBlazorWebAssembly.Authentication
 		{
 			if (password < 0)
 			{
-				throw new Exception("Username not found");
+				throw new Exception("Credentials are not correct, please check your mail and password again!");
 			}
 			/*
 			if (!string.Equals(password, user.Password))

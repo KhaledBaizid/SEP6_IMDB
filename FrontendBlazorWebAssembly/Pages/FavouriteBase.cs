@@ -159,7 +159,7 @@ public class FavouriteBase : ComponentBase
 
     public async Task SearchOnInput(ChangeEventArgs e)
     {
-        long theUserID = userId;
+        long theUserID = userIdFromCache;
         // Update the title property with the input value
         title = e.Value.ToString();
         if (string.IsNullOrWhiteSpace(title))
@@ -186,7 +186,7 @@ public class FavouriteBase : ComponentBase
     }
     public async Task Delete(long movieId)
     {
-        int theUserID = userId;
+        int theUserID = userIdFromCache;
         
         
         try

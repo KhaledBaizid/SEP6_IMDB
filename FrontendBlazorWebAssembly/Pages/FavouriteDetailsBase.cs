@@ -8,14 +8,14 @@ using Shared;
 
 namespace FrontendBlazorWebAssembly.Pages;
 
-public class FavouriteDetailsBase: ComponentBase
+public class FavouriteDetailsBase : ComponentBase
 
 {
-        
     [Parameter] public string Id { get; set; }
     public List<Movie?> displayMovies { get; set; } = new();
+
     public Movie? SelectedMovie { get; set; } = new Movie(); // Property to store the selected movie
-   // public int userId { get; set; }
+    // public int userId { get; set; }
 
     public MovieDetails? MovieDetails { get; set; } = new MovieDetails(); // Property to store the selected movie
     public Favourite _Favourite { get; set; } = new Favourite();
@@ -23,23 +23,25 @@ public class FavouriteDetailsBase: ComponentBase
     public bool ShowErrorMessage { get; set; }
     public string ErrorMessage { get; set; }
     public int userIdFromCache { get; set; }
- 
+
     [Inject] public IMovieService _MovieService { get; set; }
     [Inject] protected IAuthManager authManager { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
 
     [Inject] protected IJSRuntime JSRuntime { get; set; }
-    
+
 
     [Inject] protected IFavouriteService IFavouriteService { get; set; }
 
     [Inject] protected SweetAlertService MySweetAlertService { get; set; }
 
-    public List<Director> PersonsDirectors{ get; set; } =  new List<Director>();
+    
+
+    public List<Director> PersonsDirectors { get; set; } = new List<Director>();
 
     protected async override Task OnInitializedAsync()
     {
-       // userId = await authManager.GetUserId();
+        // userId = await authManager.GetUserId();
         userIdFromCache = await authManager.GetUserIdFromCache();
         // If Id is null, then it gets assigned the value "1".
         Id = Id ?? "1";
@@ -50,18 +52,13 @@ public class FavouriteDetailsBase: ComponentBase
         // Find the selected movie by ID
         SelectedMovie = displayMovies.FirstOrDefault(m => m.Id.ToString() == Id);
 
-      
 
         userIdFromCache = await authManager.GetUserIdFromCache();
         int MovieId = Convert.ToInt32(Id);
- 
-        
-
+       
         try
         {
             MovieDetails = await _MovieService.GetMovieDetails(MovieId);
-            
-        
         }
         catch (Exception ex)
         {
@@ -117,7 +114,7 @@ public class FavouriteDetailsBase: ComponentBase
         }
     }
 
-   
+
     public async Task ShowSuccessMessage()
     {
         var result = await MySweetAlertService.FireAsync(new SweetAlertOptions
@@ -139,6 +136,7 @@ public class FavouriteDetailsBase: ComponentBase
         {
             ShowAlert();
         }
+
         try
         {
             await IFavouriteService.AddFavouriteMovieAsync(userIdFromCache, MovieId);
@@ -157,11 +155,8 @@ public class FavouriteDetailsBase: ComponentBase
         {
             await ShowAlert();
         }
-       
+
         await IFavouriteService.GetListOfFavouriteMovies(userIdFromCache);
         NavigationManager.NavigateTo("/movies/favourite");
     }
-    
-    
-    
 }

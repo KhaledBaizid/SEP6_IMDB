@@ -1,8 +1,7 @@
 ﻿@page "/favourite/favouriteDetails/{id}"
 @inherits FavouriteDetailsBase
 @using Microsoft.AspNetCore.Components.Authorization
- 
- 
+
 
 <style>
     #details-container {
@@ -88,6 +87,49 @@
                  
             }
     }
+    
+    
+    
+        .comment{
+      margin-top: 80px;
+         
+        }
+        .comment-container{
+            
+       margin: 5px;
+         border: 1px solid white;
+         border-radius: 20px;
+         padding: 10px;
+         flex: 1;
+         margin-top: 5px;
+         border-radius: 20px;
+         color: black;
+         padding: 20px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         transition: box-shadow 0.3s;
+        }
+        
+         .comment-container:hover {
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                background-color: white;
+                transition: 0.7s;
+            }
+        
+        .textInput{
+            margin-top: 20px;
+            height: 100px;
+            width: 50%;
+        }
+        .addCommentBtn{
+        margin-top: 10px;
+        }
+        @@media (max-width: 768px) {
+            .imgAndOverview,
+            .comment {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
 </style>
 
 <AuthorizeView>
@@ -193,7 +235,39 @@
 
 
                 </div>
+                <div class="comment">
 
+                    <div>
+                        @if (_ListOfComments != null)
+                        {
+                            foreach (var comment in _ListOfComments)
+                            {
+                                <div class="comment-container">
+                                    <h6>@($"@{comment.User.Username}")</h6>
+                                    <p>@comment.Comment</p>
+                                    <p>@comment.CommentTime</p>
+
+                                </div>
+                            }
+                        }
+
+                        else
+                        {
+                            <h2>There are not any comment yet for this movie</h2>
+                        }
+                    </div>
+
+                    <div>
+
+                        <div >
+                            <InputText type="text" @bind-Value="addComment" class="form-control textInput" placeholder="Add a comment...."/>
+                            <button class="btn btn-primary addCommentBtn" @onclick="AddComment">Add Comment</button>
+                        </div>
+
+                    </div>
+
+
+                </div>
 
             </div>
         }
@@ -205,6 +279,3 @@
     </Authorized>
 
 </AuthorizeView>
-
-
- 

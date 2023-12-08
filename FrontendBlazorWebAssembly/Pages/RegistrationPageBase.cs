@@ -44,6 +44,10 @@ namespace FrontendBlazorWebAssembly.Pages
                     
                     
                 }
+                else
+                {
+                    errorMessage = "Password and Confirm Password are not identical.";
+                }
                 
             }
             catch (Exception ex)

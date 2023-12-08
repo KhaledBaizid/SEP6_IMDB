@@ -31,4 +31,20 @@ public class CommentController : ControllerBase
             return   StatusCode(500, e.Message);
         }
     }
+
+    [EnableCors]
+    [HttpGet]
+    public async Task<ActionResult<List<UserComment>>> GetUsersCommentsByMovieId(long moviedid)
+    {
+        try
+        {
+            ;
+            return StatusCode(200,await _commentInterface.GetCommentsByMovieId(moviedid));
+        }
+        catch (Exception e)
+        {
+            return   StatusCode(500, e.Message);
+        }
+    }
+    
 }

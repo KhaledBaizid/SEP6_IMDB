@@ -1,13 +1,12 @@
-﻿@page "/favourite/favouriteDetails"
-
-@inherits DetailsBase
+﻿@page "/favourite/favouriteDetails/{id}"
+@inherits FavouriteDetailsBase
 @using Microsoft.AspNetCore.Components.Authorization
  
-@inject SweetAlertService Swal;
  
+
 <style>
     #details-container {
-         margin: 110px;
+         margin: 90px;
     }
 
     .title {
@@ -92,66 +91,120 @@
 </style>
 
 <AuthorizeView>
- 
+
+
     <Authorized>
-                 @if (SelectedMovie != null)
+        @if (SelectedMovie != null && MovieDetails != null)
+        {
+            <div id="details-container">
+
+                <h3 class="title">@SelectedMovie.Title</h3>
+
+                <div class="imgAndOverview">
+                    @if (!string.IsNullOrEmpty(MovieDetails.poster_path))
                     {
-                        <div id="details-container">
-                            <h3 class="title">@SelectedMovie.Title</h3>
-            
-                            <div class="imgAndOverview">
-                                @if (!string.IsNullOrEmpty(MovieDetails.poster_path))
-                                {
-                                    <img class="theImg" src="@($"https://image.tmdb.org/t/p/w500/{MovieDetails.poster_path}")" alt="Poster"/>
-                                }
-                                else
-                                {
-                                    <p>Sorry the img for this movie does not exist</p>
-                                }
-            
-            
-                                <div class="overview">
-                                    <div class="rating">
-            
-                                        <i class="bi bi-star-fill text-warning"></i>
-            
-                                        @if (SelectedMovie.Rating != null)
-                                        {
-                                            // Convert the RatingValue to an integer with one decimal place
-                                            int ratingValueInt = (int)(SelectedMovie.Rating.RatingValue * 10);
-                                            double ratingValueWithOneDecimal = ratingValueInt / 10.0;
-            
-                                            <h5 class="text-muted">@ratingValueWithOneDecimal</h5>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Rating not provided</span>
-                                        }
-                                    </div>
-            
-                                    @if (MovieDetails.Overview != null)
-                                    {
-                                        <p>@MovieDetails.Overview</p>
-                                        <h4 class="release-date">Release Date: @MovieDetails.release_date</h4>
-                                    }
-                                    else
-                                    {
-                                        <p>Futher information not found </p>
-                                    }
-            
-                                </div>
-                                
-                           
-                            </div>
-                            
-                        </div>
+                        <img class="theImg" src="@($"https://image.tmdb.org/t/p/w500/{MovieDetails.poster_path}")" alt="Poster"/>
                     }
                     else
                     {
-                        <p>Movie not found @ErrorMessage</p>
+                        <img class="theImg" src="images/9bd42fa2d404d41d1043f4f7668f24ae.jpg" alt="Poster"/>
                     }
 
+
+                    <div class="overview">
+                        <div class="rating">
+
+                            <i class="bi bi-star-fill text-warning"></i>
+
+                            @if (SelectedMovie.Rating != null)
+                            {
+                                // Convert the RatingValue to an integer with one decimal place
+                                int ratingValueInt = (int)(SelectedMovie.Rating.RatingValue * 10);
+                                double ratingValueWithOneDecimal = ratingValueInt / 10.0;
+
+                                <h5 class="text-muted">@ratingValueWithOneDecimal</h5>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Rating not provided</span>
+                            }
+                        </div>
+                        <div>
+
+                            <div>
+                                <p>
+                                    <strong>Directors:</strong>
+                                </p>
+                                @if (SelectedMovie.Directors != null && SelectedMovie.Directors.Any())
+                                {
+                                    <ul>
+                                        @foreach (var director in SelectedMovie.Directors)
+                                        {
+                                            if (director.Person != null)
+                                            {
+                                                <li>@director.Person.Name</li>
+                                            }
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p>No directors available</p>
+                                }
+
+                            </div>
+
+                            <div>
+                                <p>
+                                    <strong>Stars:</strong>
+                                </p>
+                                @if (SelectedMovie.Stars != null && SelectedMovie.Stars.Any())
+                                {
+                                    <ul>
+                                        @foreach (var star in SelectedMovie.Stars)
+                                        {
+                                            if (star.Person != null)
+                                            {
+                                                <li>@star.Person.Name</li>
+                                            }
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p>No directors available</p>
+                                }
+
+                            </div>
+
+                        </div>
+                        @if (MovieDetails.Overview != null)
+                        {
+                            <p>@MovieDetails.Overview</p>
+                            <h4 class="release-date">Release Date: @MovieDetails.release_date</h4>
+                        }
+                        else
+                        {
+                            <p>Futher information not found </p>
+                        }
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        }
+        else
+        {
+            <p>the selected movie has no details in TMDB Website @ErrorMessage</p>
+        }
 
     </Authorized>
 
 </AuthorizeView>
+
+
+ 

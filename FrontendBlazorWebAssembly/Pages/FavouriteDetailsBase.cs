@@ -8,12 +8,14 @@ using Shared;
 
 namespace FrontendBlazorWebAssembly.Pages;
 
-public class DetailsBase : ComponentBase
+public class FavouriteDetailsBase: ComponentBase
+
 {
+        
     [Parameter] public string Id { get; set; }
     public List<Movie?> displayMovies { get; set; } = new();
     public Movie? SelectedMovie { get; set; } = new Movie(); // Property to store the selected movie
-    //public int userId { get; set; }
+   // public int userId { get; set; }
 
     public MovieDetails? MovieDetails { get; set; } = new MovieDetails(); // Property to store the selected movie
     public Favourite _Favourite { get; set; } = new Favourite();
@@ -21,6 +23,7 @@ public class DetailsBase : ComponentBase
     public bool ShowErrorMessage { get; set; }
     public string ErrorMessage { get; set; }
     public int userIdFromCache { get; set; }
+ 
     [Inject] public IMovieService _MovieService { get; set; }
     [Inject] protected IAuthManager authManager { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
@@ -38,8 +41,6 @@ public class DetailsBase : ComponentBase
     {
        // userId = await authManager.GetUserId();
         userIdFromCache = await authManager.GetUserIdFromCache();
-        
-        int theuserIdFromCache = userIdFromCache;
         // If Id is null, then it gets assigned the value "1".
         Id = Id ?? "1";
 
@@ -51,6 +52,7 @@ public class DetailsBase : ComponentBase
 
       
 
+        userIdFromCache = await authManager.GetUserIdFromCache();
         int MovieId = Convert.ToInt32(Id);
  
         
@@ -59,7 +61,7 @@ public class DetailsBase : ComponentBase
         {
             MovieDetails = await _MovieService.GetMovieDetails(MovieId);
             
-          //  PersonsDirectors = SelectedMovie.Directors.FindAll(director => director.MovieId == SelectedMovie.Id);
+        
         }
         catch (Exception ex)
         {
@@ -115,21 +117,7 @@ public class DetailsBase : ComponentBase
         }
     }
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (firstRender)
-        {
-            userIdFromCache = await authManager.GetUserIdFromCache();
-            if (userIdFromCache == 0)
-            {
-                ShowAlert();
-            }
-             
-        }
-    }
-
+   
     public async Task ShowSuccessMessage()
     {
         var result = await MySweetAlertService.FireAsync(new SweetAlertOptions
@@ -173,23 +161,7 @@ public class DetailsBase : ComponentBase
         await IFavouriteService.GetListOfFavouriteMovies(userIdFromCache);
         NavigationManager.NavigateTo("/movies/favourite");
     }
-
-    /*
-     private async Task ShowAlertLogin()
-     {
-         var result = await JSRuntime2.InvokeAsync<bool>("confirm", "You are not logged in to see the details! If you want to login click OK?");
-         
-         if (result)
-         {
-             // Navigate to another URL
-             NavigationManager.NavigateTo("/Login");
-         }
-         else
-         {
-             // User clicked "Cancel" - Do something else or just return
-             // For example, you can display another message or perform another action
-             Console.WriteLine("User clicked Cancel");
-         }
-     }
-   */
+    
+    
+    
 }

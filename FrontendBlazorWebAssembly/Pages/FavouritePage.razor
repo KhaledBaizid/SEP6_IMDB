@@ -137,7 +137,7 @@ justify-content: center;
                             <p class="hoverColor"><i class="bi bi-star-fill  text-danger rate"></i>Rate: @ratingValueWithOneDecimal</p>
                         </div>
 
-                        <a href="/favourite/favouriteDetails" class="btn btn-primary">More Details..</a>
+                        <a href="@($"favourite/favouriteDetails/{favourite.Movie.Id}")"  class="btn btn-primary">More Details..</a>
                         <button style="margin-top: 5px; width: 50%;    margin-left:25%; margin-right:25%;"  @onclick="(e) => Delete((long)favourite.Movie.Id)"  type="button" class="btn btn-danger">Delete</button>
                     </div>
                 </div>

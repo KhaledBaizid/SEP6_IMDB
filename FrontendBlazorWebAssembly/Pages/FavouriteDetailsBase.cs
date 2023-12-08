@@ -23,6 +23,9 @@ public class FavouriteDetailsBase : ComponentBase
     public bool ShowErrorMessage { get; set; }
     public string ErrorMessage { get; set; }
     public int userIdFromCache { get; set; }
+    public List<UserComment?> _ListOfComments { get; set; } = new();
+    public string addComment { get; set; }
+    [Inject] protected ICommentService _ICommentService { get; set; }
 
     [Inject] public IMovieService _MovieService { get; set; }
     [Inject] protected IAuthManager authManager { get; set; }
@@ -55,7 +58,9 @@ public class FavouriteDetailsBase : ComponentBase
 
         userIdFromCache = await authManager.GetUserIdFromCache();
         int MovieId = Convert.ToInt32(Id);
-       
+        
+        long MovieIdTypeLong = Convert.ToInt64(Id);
+        _ListOfComments = await _ICommentService.GetCommentsByMovieId(MovieIdTypeLong);
         try
         {
             MovieDetails = await _MovieService.GetMovieDetails(MovieId);
@@ -115,12 +120,12 @@ public class FavouriteDetailsBase : ComponentBase
     }
 
 
-    public async Task ShowSuccessMessage()
+    public async Task ShowSuccessMessage(string text)
     {
         var result = await MySweetAlertService.FireAsync(new SweetAlertOptions
         {
             Title = "Success",
-            Text = "You have successfully added an item!",
+            Text = text,
             Icon = SweetAlertIcon.Success,
             ConfirmButtonText = "OK"
         });
@@ -140,7 +145,8 @@ public class FavouriteDetailsBase : ComponentBase
         try
         {
             await IFavouriteService.AddFavouriteMovieAsync(userIdFromCache, MovieId);
-            ShowSuccessMessage();
+            string test = "You have successfully added an item!";
+            ShowSuccessMessage(test);
         }
         catch (Exception ex)
         {
@@ -158,5 +164,17 @@ public class FavouriteDetailsBase : ComponentBase
 
         await IFavouriteService.GetListOfFavouriteMovies(userIdFromCache);
         NavigationManager.NavigateTo("/movies/favourite");
+    }
+    
+    public async Task AddComment()
+    {
+        long MovieIdTypeLong = Convert.ToInt64(Id);
+        _ICommentService.AddCommentToMovie(userIdFromCache,MovieIdTypeLong, addComment);
+        string test = "Thanks for Your Comment";
+        ShowSuccessMessage(test);
+        await OnInitializedAsync();
+        _ListOfComments = await _ICommentService.GetCommentsByMovieId(MovieIdTypeLong);
+        addComment = "";
+
     }
 }

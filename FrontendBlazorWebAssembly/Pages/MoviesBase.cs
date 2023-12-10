@@ -33,13 +33,10 @@ public class MoviesBase : ComponentBase
                 var details = await _MovieService.GetAllMovieDetailsById(movies.Id);
                 MovieDetailsList.AddRange(details);
             });
-
             await Task.WhenAll(tasks);
         }
-
         displayMovies = displayMovies1;
     }
-
     public string getimage(long? id)
     {
         Console.WriteLine(id);
@@ -50,7 +47,6 @@ public class MoviesBase : ComponentBase
             var url = movieDetails.poster_path;
             return url;
         }
-
         //  var t = await "https://image.tmdb.org/t/p/w342//v4QfYZMACODlWul9doN9RxE99ag.jpg".ToString();
         return null;
     }

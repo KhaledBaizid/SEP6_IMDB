@@ -131,6 +131,7 @@ public class DetailsBase : ComponentBase
             if (userIdFromCache == 0)
             {
                 ShowAlert();
+                
             }
              
         }
@@ -175,10 +176,15 @@ public class DetailsBase : ComponentBase
         if (userIdFromCache == 0)
         {
             await ShowAlert();
+            
+        }
+        else
+        {
+            await IFavouriteService.GetListOfFavouriteMovies(userIdFromCache);
+            NavigationManager.NavigateTo("/movies/favourite");
         }
        
-        await IFavouriteService.GetListOfFavouriteMovies(userIdFromCache);
-        NavigationManager.NavigateTo("/movies/favourite");
+     
     }
     public async Task AddComment()
     {

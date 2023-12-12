@@ -126,7 +126,7 @@ public class FavouriteBase : ComponentBase
         var result = await MySweetAlertService.FireAsync(new SweetAlertOptions
         {
             Title = "You are not logged in",
-            Text = "do u have an account ?",
+            Text = "do you have an account ?",
             Icon = SweetAlertIcon.Warning,
             ShowCancelButton = true,
             ConfirmButtonText = "yes",

@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: backendbestmoviescontainerregistery1.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ba7f0becda88458483a1005fbc06e542 }}/backendimage:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./Backend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest

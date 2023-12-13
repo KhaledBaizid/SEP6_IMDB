@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: frontendbestmoviescontainerregistery1.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_b98fd633423c43edb62098f3b7b726bc }}/frontendimage:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./FrontendBlazorWebAssembly/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
